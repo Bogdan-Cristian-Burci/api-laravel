@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\ResponsesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChapterController;
@@ -37,6 +38,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('quizzes',QuizController::class,[
         'except'=>['edit','create']
+    ]);
+
+    Route::resource('responses', ResponsesController::class,[
+        'only'=>['store']
     ]);
 });
 

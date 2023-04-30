@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 use App\Models\Chapter;
 use App\Transformers\QuestionTransformer;
 
-class QuizChapterTransformer extends TransformerAbstract
+class ChapterTransformer extends TransformerAbstract
 {
     /**
      * List of resources to automatically include

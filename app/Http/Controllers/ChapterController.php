@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Transformers\PaginatorAdapter;
-use App\Transformers\QuizChapterTransformer;
+use App\Transformers\ChapterTransformer;
 use App\Http\Requests\CreateChapterRequest;
 use App\Models\Chapter;
 use Illuminate\Http\JsonResponse;
@@ -19,7 +19,7 @@ class ChapterController extends ApiController
 
             $paginator = Chapter::paginate();
             $questions = $paginator->getCollection();
-            $data = fractal($questions,new QuizChapterTransformer())->paginateWith( new PaginatorAdapter($paginator));
+            $data = fractal($questions,new ChapterTransformer())->paginateWith( new PaginatorAdapter($paginator));
 
             return $this->successResponse($data,'Collection found with success');
     }
@@ -33,7 +33,7 @@ class ChapterController extends ApiController
 
             $chapter = Chapter::create(['name'=>$request->input('name')]);
 
-            $data = fractal($chapter, new QuizChapterTransformer());
+            $data = fractal($chapter, new ChapterTransformer());
 
             return $this->successResponse($data, 'Chapter created successfully', 201);
     }
@@ -45,7 +45,7 @@ class ChapterController extends ApiController
      */
     public function show(Chapter $chapter){
 
-            $data = fractal($chapter, new QuizChapterTransformer())->toArray();
+            $data = fractal($chapter, new ChapterTransformer())->toArray();
 
             return $this->successResponse($data,'Chapter found successfully ');
     }
@@ -62,7 +62,7 @@ class ChapterController extends ApiController
                 'name' => $request->input('name')
             ]);
 
-            $data = fractal($chapter, new QuizChapterTransformer())->toArray();
+            $data = fractal($chapter, new ChapterTransformer())->toArray();
 
             return $this->successResponse($data,'Chapter updated with success');
     }
@@ -73,6 +73,11 @@ class ChapterController extends ApiController
      * @return JsonResponse
      */
     public function destroy(Chapter $chapter){
+
+            foreach ($chapter->questions as $question){
+                $question->chapter_id = null;
+                $question->save();
+            }
 
             $chapter->delete();
 

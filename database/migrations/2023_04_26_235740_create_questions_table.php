@@ -19,7 +19,7 @@ class CreateQuestionsTable extends Migration
             $table->string('description');
             $table->unsignedBigInteger('chapter_id')->nullable();
             $table->timestamps();
-            $table->foreign('chapter_id')->references('id')->on('chapters');
+            $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
         });
     }
 

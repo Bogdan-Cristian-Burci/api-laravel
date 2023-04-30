@@ -42,7 +42,6 @@ class QuizTransformer extends TransformerAbstract
 
     public function includeQuestions(Quiz $quiz): Collection
     {
-
         $questions = $quiz->questions;
 
         return $this->collection($questions, new QuestionTransformer());

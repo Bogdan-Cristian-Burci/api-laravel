@@ -2,10 +2,10 @@
 
 namespace App\Transformers;
 
-use App\Models\Answer;
+use App\Models\Responses;
 use League\Fractal\TransformerAbstract;
 
-class AnswerTransformer extends TransformerAbstract
+class ResponseTransformer extends TransformerAbstract
 {
     /**
      * List of resources to automatically include
@@ -28,15 +28,12 @@ class AnswerTransformer extends TransformerAbstract
     /**
      * A Fractal transformer.
      *
-     * @param Answer $answer
      * @return array
      */
-    public function transform(Answer $answer): array
+    public function transform(Responses $response): array
     {
         return [
-            'id'=>$answer->id,
-            'name'=>$answer->name,
-            'description'=>$answer->description,
+            'is_correct'=>$response->is_correct
         ];
     }
 }

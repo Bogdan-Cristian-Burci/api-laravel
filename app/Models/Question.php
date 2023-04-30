@@ -39,6 +39,9 @@ class Question extends Model
         return $this->hasMany(Answer::class);
     }
 
+    /**
+     * @return BelongsToMany
+     */
     public function quiz(): BelongsToMany
     {
         return $this->belongsToMany(Quiz::class,'quizzes_questions');

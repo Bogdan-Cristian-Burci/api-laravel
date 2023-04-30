@@ -102,13 +102,13 @@ class QuizController extends ApiController
 
             foreach ($chapters as $chapter){
 
-                $chapterQuestions = $chapter->questions()->take($questionsPerChapter)->get();
+                $chapterQuestions = $chapter->questions()->limit($questionsPerChapter)->get();
                 $quizQuestions = $quizQuestions->merge($chapterQuestions);
 
                 //If the number of questions in this chapter is less than the target number, get the difference from other chapters
                 if($chapterQuestions->count() < $questionsPerChapter){
                     $remainingQuestions = $questionsPerChapter - $chapter->questions()->count();
-                    $remainingChapterQuestions = $chapter->questions()->skip($questionsPerChapter)->take($remainingQuestions)->get();
+                    $remainingChapterQuestions = $chapter->questions()->skip($questionsPerChapter)->limit($remainingQuestions)->get();
                     $quizQuestions=$quizQuestions->merge($remainingChapterQuestions);
                 }
                 // If we've selected enough questions, exit the loop
