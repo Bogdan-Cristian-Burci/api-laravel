@@ -3,6 +3,8 @@
 namespace App\Transformers\User;
 
 use App\Models\User;
+use App\Transformers\Quiz\QuizTransformer;
+use League\Fractal\Resource\Collection;
 use League\Fractal\TransformerAbstract;
 
 class LoginTransformer extends TransformerAbstract

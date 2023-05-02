@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ResponsesRequest;
 use App\Models\Answer;
 use App\Models\Responses;
-use App\Transformers\ResponseTransformer;
+use App\Transformers\Response\ResponseTransformer;
 use Illuminate\Http\JsonResponse;
 
 class ResponsesController extends ApiController

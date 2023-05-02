@@ -43,6 +43,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('responses', ResponsesController::class,[
         'only'=>['store']
     ]);
+
+    Route::get('user/summary',[UserController::class,'getSummary']);
 });
 
 Route::post('register',[UserController::class,'register']);

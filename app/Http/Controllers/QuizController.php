@@ -8,7 +8,8 @@ use App\Models\Chapter;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Transformers\PaginatorAdapter;
-use App\Transformers\QuizTransformer;
+use App\Transformers\Quiz\QuizSummaryTransformer;
+use App\Transformers\Quiz\QuizTransformer;
 use Illuminate\Http\JsonResponse;
 
 class QuizController extends ApiController
@@ -55,6 +56,7 @@ class QuizController extends ApiController
      */
     public function show(Quiz $quiz)
     {
+
         $data = fractal($quiz, new QuizTransformer());
 
         return $this->successResponse($data,'Quiz found with success');
@@ -125,4 +127,5 @@ class QuizController extends ApiController
         return $quizQuestions->pluck('id')->toArray();
 
     }
+
 }

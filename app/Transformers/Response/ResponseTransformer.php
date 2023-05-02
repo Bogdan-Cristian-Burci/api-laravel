@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Transformers;
+namespace App\Transformers\Response;
 
 use App\Models\Responses;
 use League\Fractal\TransformerAbstract;

@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Transformers;
+namespace App\Transformers\Quiz;
 
 use App\Models\Quiz;
+use App\Transformers\QuestionTransformer;
+use App\Transformers\Response\ResponseTransformer;
 use League\Fractal\Resource\Collection;
 use League\Fractal\TransformerAbstract;
 
@@ -14,7 +16,7 @@ class QuizTransformer extends TransformerAbstract
      * @var array
      */
     protected array $defaultIncludes = [
-        'questions'
+
     ];
 
     /**
@@ -23,7 +25,7 @@ class QuizTransformer extends TransformerAbstract
      * @var array
      */
     protected array $availableIncludes = [
-        'questions'
+        'questions','results'
     ];
 
     /**
@@ -40,10 +42,21 @@ class QuizTransformer extends TransformerAbstract
         ];
     }
 
+    /**
+     * Get all questions for quizz
+     * @param Quiz $quiz
+     * @return Collection
+     */
     public function includeQuestions(Quiz $quiz): Collection
     {
         $questions = $quiz->questions;
 
         return $this->collection($questions, new QuestionTransformer());
+    }
+
+    public function includeResults(Quiz $quiz): Collection
+    {
+        $savedResponses = $quiz->responses;
+        return $this->collection($savedResponses, new ResponseTransformer());
     }
 }

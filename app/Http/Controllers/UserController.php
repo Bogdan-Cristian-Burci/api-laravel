@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\LoginUserRequest;
 use App\Models\User;
+use App\Transformers\Quiz\QuizSummaryTransformer;
 use App\Transformers\User\CreateUserTransformer;
 use App\Transformers\User\LoginTransformer;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -43,4 +45,26 @@ class UserController extends ApiController
         }
     }
 
+    public function getSummary(Request $request){
+        $authenticatedUser = $request->user();
+
+        $quizzes = $authenticatedUser->quizzes;
+        $quizzesCollection = collect();
+
+        if(count($quizzes)>0){
+            foreach ($quizzes as $quiz){
+                $totalResponses = $quiz->responses;
+                $quizzesCollection->push([
+                    'id'=>$quiz->id,
+                    'total_questions'=>$quiz->questions->count(),
+                    'total_responses'=>$totalResponses->count(),
+                    'correct_answers'=>$totalResponses->filter(function($answer){
+                        return (boolean)$answer->is_correct = true;
+                    })->count()
+                ]);
+            }
+        }
+
+        return $this->successResponse($quizzesCollection,'Summary found with success');
+    }
 }
