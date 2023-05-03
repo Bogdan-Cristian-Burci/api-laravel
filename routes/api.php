@@ -21,28 +21,31 @@ use App\Http\Controllers\QuestionController;
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    Route::resource('chapters', ChapterController::class,[
-        'except'=>['edit','create']
-    ]);
-    Route::resource('questions', QuestionController::class,[
-        'except'=>['edit','create']
-    ]);
-    Route::post('questions/attach/{question}',[QuestionController::class,'attachQuestionToChapter']);
-    Route::post('questions/detach/{question}',[QuestionController::class,'detachQuestionFromChapter']);
+    Route::group(['middleware' => ['role:super-admin']], function () {
 
-    Route::resource('answers', AnswerController::class,[
-        'except'=>['index','edit','create']
-    ]);
-    Route::post('answers/attach/{answer}',[AnswerController::class,'attachAnswerToQuestion']);
-    Route::post('answers/detach/{answer}',[AnswerController::class,'detachAnswerFromQuestion']);
+        Route::resource('chapters', ChapterController::class,[
+            'except'=>['edit','create']
+        ]);
+        Route::resource('questions', QuestionController::class,[
+            'except'=>['edit','create']
+        ]);
+        Route::post('questions/attach/{question}',[QuestionController::class,'attachQuestionToChapter']);
+        Route::post('questions/detach/{question}',[QuestionController::class,'detachQuestionFromChapter']);
 
-    Route::resource('quizzes',QuizController::class,[
-        'except'=>['edit','create']
-    ]);
+        Route::resource('answers', AnswerController::class,[
+            'except'=>['index','edit','create']
+        ]);
+        Route::post('answers/attach/{answer}',[AnswerController::class,'attachAnswerToQuestion']);
+        Route::post('answers/detach/{answer}',[AnswerController::class,'detachAnswerFromQuestion']);
 
-    Route::resource('responses', ResponsesController::class,[
-        'only'=>['store']
-    ]);
+        Route::resource('quizzes',QuizController::class,[
+            'except'=>['edit','create']
+        ]);
+
+        Route::resource('responses', ResponsesController::class,[
+            'only'=>['store']
+        ]);
+    });
 
     Route::get('user/summary',[UserController::class,'getSummary']);
 });
