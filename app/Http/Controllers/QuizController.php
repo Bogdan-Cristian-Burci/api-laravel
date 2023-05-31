@@ -8,12 +8,16 @@ use App\Models\Chapter;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Transformers\PaginatorAdapter;
-use App\Transformers\Quiz\QuizSummaryTransformer;
 use App\Transformers\Quiz\QuizTransformer;
 use Illuminate\Http\JsonResponse;
 
 class QuizController extends ApiController
 {
+
+    private const QUIZ_TYPE=[
+        "ia_pp"=>["C1"=>4,"C2"=>4,"C3"=>4,"C4"=>4,"C5"=>4,"C6"=>4,"C7"=>4,"C8"=>4,"C9"=>4,"C10"=>0,"C11"=>4],
+        "co_ce"=>["C1"=>4,"C2"=>4,"C3"=>4,"C4"=>4,"C5"=>4,"C6"=>4,"C7"=>4,"C8"=>4,"C9"=>4,"C10"=>2,"C11"=>2]
+    ];
     /**
      * Get all quizzes
      * @return JsonResponse
@@ -36,8 +40,8 @@ class QuizController extends ApiController
     {
        $quiz = Quiz::create([
            'name'=>$request->input('name'),
-           'user_id' => $request->input('user_id'),
-           'number_of_questions'=>$request->input('number_of_questions') ?? Quiz::$TOTAL_NUMBER_OF_QUESTIONS
+           'user_id' => $request->user()->id,
+           'number_of_questions'=>$request->input('name') === 'demo' ? 10 : Quiz::$TOTAL_NUMBER_OF_QUESTIONS
        ]);
 
        $questionIds = $this->allocateQuestionsToQuiz($quiz);
@@ -100,11 +104,10 @@ class QuizController extends ApiController
 
         if($chapters->count() > 1){
 
-            $questionsPerChapter = floor($numberOfQuestions / $chapters->count());
-
             foreach ($chapters as $chapter){
 
-                $chapterQuestions = $chapter->questions()->limit($questionsPerChapter)->get();
+                $questionsPerChapter = self::QUIZ_TYPE["ia_pp"][$chapter->name];
+                $chapterQuestions = $chapter->questions()->inRandomOrder()->limit($questionsPerChapter)->get();
                 $quizQuestions = $quizQuestions->merge($chapterQuestions);
 
                 //If the number of questions in this chapter is less than the target number, get the difference from other chapters
@@ -126,6 +129,28 @@ class QuizController extends ApiController
 
         return $quizQuestions->pluck('id')->toArray();
 
+    }
+
+    public function getLastQuizData(){
+
+        $user = request()->user();
+
+        $lastQuiz = $user->lastQuiz;
+        $responses = $lastQuiz->responses;
+
+        $correctAnswers = $responses->where('is_correct',true)->count();
+        $inCorrectAnswers = $responses->where('is_correct',false)->count();
+
+        $totalQuestions = $lastQuiz->number_of_questions;
+
+        $data = [
+            "total"=>$totalQuestions,
+            "correct"=>$correctAnswers,
+            "incorrect"=>$inCorrectAnswers,
+            "unanswered"=>$totalQuestions - ($correctAnswers+$inCorrectAnswers)
+        ];
+
+        return $this->successResponse($data,'Summary calculated');
     }
 
 }

@@ -3,6 +3,7 @@
 namespace App\Transformers\User;
 
 use App\Models\User;
+use App\Transformers\Quiz\QuizSummaryTransformer;
 use App\Transformers\Quiz\QuizTransformer;
 use League\Fractal\Resource\Collection;
 use League\Fractal\TransformerAbstract;
@@ -15,7 +16,7 @@ class LoginTransformer extends TransformerAbstract
      * @var array
      */
     protected array $defaultIncludes = [
-        //
+
     ];
 
     /**
@@ -36,6 +37,15 @@ class LoginTransformer extends TransformerAbstract
     {
         return [
             'name' => $user->name,
+            'id' =>$user->id
         ];
+    }
+
+    public function includeSummary(User $user): Collection
+    {
+
+        $quizzes = $user->quizzes;
+
+        return $this->collection($quizzes, new QuizSummaryTransformer());
     }
 }

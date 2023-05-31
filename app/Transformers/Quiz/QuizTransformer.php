@@ -16,7 +16,7 @@ class QuizTransformer extends TransformerAbstract
      * @var array
      */
     protected array $defaultIncludes = [
-
+        'questions'
     ];
 
     /**

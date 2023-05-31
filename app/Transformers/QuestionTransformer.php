@@ -36,8 +36,7 @@ class QuestionTransformer extends TransformerAbstract
     {
         return [
             'id'=>$question->id,
-            'name'=>$question->name,
-            'description'=>$question->description
+            'question'=>$question->description
         ];
     }
 

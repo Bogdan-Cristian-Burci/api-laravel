@@ -17,7 +17,7 @@ class Quiz extends Model
      * Default number of questions set for every quiz, can be changed if it is sent through request when creating a quiz
      * @var int
      */
-    public static int $TOTAL_NUMBER_OF_QUESTIONS = 15;
+    public static int $TOTAL_NUMBER_OF_QUESTIONS = 40;
     /**
      * The attributes that are mass assignable.
      *
@@ -51,7 +51,13 @@ class Quiz extends Model
      */
     public function responses(): HasManyThrough
     {
-        return $this->hasManyThrough(Responses::class,QuizzesQuestions::class,'quiz_id','quiz_question_id','id','id');
+        return $this->hasManyThrough(
+            Response::class,
+            QuizQuestion::class,
+            'quiz_id',
+            'quiz_question_id',
+            'id',
+            'id');
     }
 
 }

@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ResponsesRequest;
 use App\Models\Answer;
-use App\Models\Responses;
+use App\Models\QuizQuestion;
+use App\Models\Response;
 use App\Transformers\Response\ResponseTransformer;
 use Illuminate\Http\JsonResponse;
 
@@ -25,8 +26,12 @@ class ResponsesController extends ApiController
             \Log::error('Trying to get answer by id '. $e->getMessage());
         }
 
-        $response = Responses::create([
-            'quiz_question_id' => $request->input('quiz_question_id') ,
+        $questionId = Answer::find($request->input('answer_id'))->question->id;
+        $quizId=$request->input('quiz_question_id');
+
+        $quizQuestionId = QuizQuestion::where('quiz_id',$quizId)->where('question_id',$questionId)->first();
+        $response = Response::create([
+            'quiz_question_id' => $quizQuestionId->id ,
             'answer_id' => $request->input('answer_id'),
             'duration'=>$request->input('duration'),
             'is_correct' => (bool)$isCorrect

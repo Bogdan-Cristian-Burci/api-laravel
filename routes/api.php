@@ -37,17 +37,18 @@ Route::middleware('auth:sanctum')->group(function () {
         ]);
         Route::post('answers/attach/{answer}',[AnswerController::class,'attachAnswerToQuestion']);
         Route::post('answers/detach/{answer}',[AnswerController::class,'detachAnswerFromQuestion']);
-
-        Route::resource('quizzes',QuizController::class,[
-            'except'=>['edit','create']
-        ]);
-
-        Route::resource('responses', ResponsesController::class,[
-            'only'=>['store']
-        ]);
     });
 
+    Route::resource('quizzes',QuizController::class,[
+        'except'=>['edit','create']
+    ]);
+
+    Route::get('last-quiz',[QuizController::class,'getLastQuizData']);
     Route::get('user/summary',[UserController::class,'getSummary']);
+    Route::get('user/user-data',[UserController::class,'getUser']);
+    Route::resource('responses', ResponsesController::class,[
+        'only'=>['store']
+    ]);
 });
 
 Route::post('register',[UserController::class,'register']);

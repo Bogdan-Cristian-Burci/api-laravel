@@ -2,7 +2,7 @@
 
 namespace App\Transformers\Response;
 
-use App\Models\Responses;
+use App\Models\Response;
 use League\Fractal\TransformerAbstract;
 
 class ResponseTransformer extends TransformerAbstract
@@ -30,7 +30,7 @@ class ResponseTransformer extends TransformerAbstract
      *
      * @return array
      */
-    public function transform(Responses $response): array
+    public function transform(Response $response): array
     {
         return [
             'is_correct'=>$response->is_correct
