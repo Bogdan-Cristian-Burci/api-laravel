@@ -10,7 +10,9 @@ class QuizRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'number_of_questions'=>['sometimes','integer']
+            'number_of_questions'=>['sometimes','integer'],
+            'training_category_id'=>['required'],
+            'training_type_id'=>['required']
         ];
     }
 }

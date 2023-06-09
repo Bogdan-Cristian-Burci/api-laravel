@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 use Throwable;
 use App\Traits\ApiResponses;
 
@@ -79,6 +80,9 @@ class Handler extends ExceptionHandler
 
         if ($exception instanceof HttpException) {
             return $this->errorResponse($exception->getCode(),$exception->getMessage());
+        }
+        if($exception instanceof NotFoundResourceException){
+            return $this->errorResponse(404,'Resource not found');
         }
 
         if (config('app.debug')) {

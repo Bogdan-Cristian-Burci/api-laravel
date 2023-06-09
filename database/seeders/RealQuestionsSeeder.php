@@ -45,7 +45,10 @@ class RealQuestionsSeeder extends Seeder
                 $newQuestion = Question::create([
                     "name"=>"Intrebare",
                     "description"=>$row["Question"],
-                    "chapter_id" => $chaptersAdded[$row["chapter"]]
+                    "chapter_id" => $chaptersAdded[$row["chapter"]],
+                    "ppi"=>$row["PPI"],
+                    "ppc"=>$row["PPC"],
+                    "def"=>$row["DEF"],
                 ]);
 
                 $lastQuestionId=$newQuestion->id;

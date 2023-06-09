@@ -18,6 +18,9 @@ class CreateQuestionsTable extends Migration
             $table->string('name');
             $table->longText('description');
             $table->unsignedBigInteger('chapter_id')->nullable();
+            $table->set('ppi',['X','CO CE','CE'])->nullable();
+            $table->set('ppc',['X','CO CE','CE'])->nullable();
+            $table->set('def',['X','CO CE','CE'])->nullable();
             $table->timestamps();
             $table->foreign('chapter_id')->references('id')->on('chapters')->onDelete('cascade');
         });

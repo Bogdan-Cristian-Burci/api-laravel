@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\ResponsesController;
+use App\Http\Controllers\TrainingCategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChapterController;
@@ -46,10 +47,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('last-quiz',[QuizController::class,'getLastQuizData']);
     Route::get('user/summary',[UserController::class,'getSummary']);
     Route::get('user/user-data',[UserController::class,'getUser']);
+    Route::get('user/all-trainings',[UserController::class,'getTrainings']);
     Route::resource('responses', ResponsesController::class,[
         'only'=>['store']
+    ]);
+
+    Route::resource('training-category', TrainingCategoryController::class,[
+        'only'=>['index']
     ]);
 });
 
 Route::post('register',[UserController::class,'register']);
 Route::post('login',[UserController::class,'login']);
+Route::post('logout',[UserController::class,'logout']);
+Route::post('forgot-password', [UserController::class,'forgotPassword']);
+Route::post('reset-password', [UserController::class,'resetPassword']);
+Route::post('validate-token', [UserController::class,'validateToken']);

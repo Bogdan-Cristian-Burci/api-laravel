@@ -11,9 +11,11 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name');
+            $table->unsignedBigInteger('training_id');
             $table->integer('number_of_questions');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('training_id')->references('id')->on('trainings');
         });
     }
 

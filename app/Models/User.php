@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,7 +14,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable,HasRoles;
+    use HasApiTokens, HasFactory, Notifiable,HasRoles, CanResetPassword;
 
     /**
      * The attributes that are mass assignable.
@@ -60,5 +62,15 @@ class User extends Authenticatable
     public function lastQuiz(): HasOne
     {
         return $this->hasOne(Quiz::class)->latestOfMany();
+    }
+
+    public function trainings(): BelongsToMany
+    {
+        return $this->belongsToMany(Training::class,'users_trainings');
+    }
+
+    public function assignTrainings(): HasMany
+    {
+        return $this->hasMany(UserTraining::class);
     }
 }

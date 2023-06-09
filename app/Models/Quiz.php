@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Quiz extends Model
@@ -24,7 +23,7 @@ class Quiz extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'user_id','name','number_of_questions'
+        'user_id','name','number_of_questions','training_category','training_type'
     ];
 
     /**
@@ -58,6 +57,11 @@ class Quiz extends Model
             'quiz_question_id',
             'id',
             'id');
+    }
+
+    public function training(): BelongsTo
+    {
+        return $this->belongsTo(Training::class);
     }
 
 }

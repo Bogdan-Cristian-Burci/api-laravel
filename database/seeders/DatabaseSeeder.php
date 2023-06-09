@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Training;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,7 +18,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesAndPermissionsSeeder::class,
             UserSeeder::class,
-            ChapterQuestionAnswerSeeder::class
+            TrainingTypeSeeder::class,
+            TrainingCategorySeeder::class,
+            TrainingsSeeder::class,
+            RealQuestionsSeeder::class
         ]);
     }
 }
