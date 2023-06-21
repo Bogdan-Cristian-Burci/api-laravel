@@ -23,7 +23,7 @@ class Quiz extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'user_id','name','number_of_questions','training_category','training_type'
+        'user_id','name','number_of_questions','training_id'
     ];
 
     /**

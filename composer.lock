@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e2d9526f3aab7fc9cd7294fc2c2c2c5c",
+    "content-hash": "cf5d4560d7e15569c3663853f671a949",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -632,16 +632,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.5.1",
+            "version": "7.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "b964ca597e86b752cd994f27293e9fa6b6a95ed9"
+                "reference": "8444a2bacf1960bc6a2b62ed86b8e72e11eebe51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/b964ca597e86b752cd994f27293e9fa6b6a95ed9",
-                "reference": "b964ca597e86b752cd994f27293e9fa6b6a95ed9",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/8444a2bacf1960bc6a2b62ed86b8e72e11eebe51",
+                "reference": "8444a2bacf1960bc6a2b62ed86b8e72e11eebe51",
                 "shasum": ""
             },
             "require": {
@@ -672,9 +672,6 @@
                 "bamarni-bin": {
                     "bin-links": true,
                     "forward-command": false
-                },
-                "branch-alias": {
-                    "dev-master": "7.5-dev"
                 }
             },
             "autoload": {
@@ -740,7 +737,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.5.1"
+                "source": "https://github.com/guzzle/guzzle/tree/7.6.1"
             },
             "funding": [
                 {
@@ -756,7 +753,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-04-17T16:30:08+00:00"
+            "time": "2023-05-15T20:43:01+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -2022,6 +2019,48 @@
                 }
             ],
             "time": "2023-01-29T18:53:47+00:00"
+        },
+        {
+            "name": "netopia/payment",
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mobilpay/composer.git",
+                "reference": "fc42cb9bed73dc9c87c2fc481b50e0b88269e726"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mobilpay/composer/zipball/fc42cb9bed73dc9c87c2fc481b50e0b88269e726",
+                "reference": "fc42cb9bed73dc9c87c2fc481b50e0b88269e726",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-simplexml": "*",
+                "php": ">=5.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Netopia\\Payment\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "AGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "NETOPIA Payments",
+                    "email": "implementare@netopia-system.com"
+                }
+            ],
+            "description": "Set of library that give you the means to incorporate NETOPIA Payments functionality into your website applications and mobile apps.",
+            "support": {
+                "issues": "https://github.com/mobilpay/composer/issues",
+                "source": "https://github.com/mobilpay/composer/tree/v1.0.5"
+            },
+            "time": "2021-03-29T07:43:09+00:00"
         },
         {
             "name": "nette/schema",

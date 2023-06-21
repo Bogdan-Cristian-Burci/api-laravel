@@ -7,11 +7,12 @@
     "require": {
         "php": "^7.4|^8.0",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^7.0",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.5",
         "league/csv": "^9.0",
+        "netopia/payment": "^1.0",
         "rap2hpoutre/fast-excel": "^5.2",
         "spatie/laravel-fractal": "^6.0",
         "spatie/laravel-permission": "^5.10"

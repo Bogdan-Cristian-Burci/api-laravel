@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\ResponsesController;
 use App\Http\Controllers\TrainingCategoryController;
@@ -20,7 +22,7 @@ use App\Http\Controllers\QuestionController;
 |
 */
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum','verified'])->group(function () {
 
     Route::group(['middleware' => ['role:super-admin']], function () {
 
@@ -55,11 +57,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('training-category', TrainingCategoryController::class,[
         'only'=>['index']
     ]);
+
+    Route::get('payment/form',[PaymentController::class,'getPaymentForm']);
 });
 
-Route::post('register',[UserController::class,'register']);
-Route::post('login',[UserController::class,'login']);
-Route::post('logout',[UserController::class,'logout']);
-Route::post('forgot-password', [UserController::class,'forgotPassword']);
-Route::post('reset-password', [UserController::class,'resetPassword']);
-Route::post('validate-token', [UserController::class,'validateToken']);
+Route::post('register',[AuthController::class,'register']);
+Route::post('login',[AuthController::class,'login']);
+Route::post('logout',[AuthController::class,'logout']);
+Route::post('forgot-password', [AuthController::class,'forgotPassword']);
+Route::post('reset-password', [AuthController::class,'resetPassword']);
+Route::post('validate-token', [AuthController::class,'validateToken']);
+Route::post('payment/return',[PaymentController::class,'instantPaymentNotification']);
+Route::get('/email/verify/success',[AuthController::class,'emailSuccess']);
+Route::get('/email/verify/{id}/{hash}',[AuthController::class,'verifyEmail'])->name('verification.verify');
+Route::get('/email/verify/already-success',[AuthController::class,'alreadyChecked']);

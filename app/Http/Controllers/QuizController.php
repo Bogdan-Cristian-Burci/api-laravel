@@ -7,6 +7,7 @@ use App\Http\Requests\Quiz\UpdateQuizRequest;
 use App\Models\Chapter;
 use App\Models\Question;
 use App\Models\Quiz;
+use App\Models\Training;
 use App\Models\TrainingCategory;
 use App\Models\TrainingType;
 use App\Transformers\PaginatorAdapter;
@@ -45,8 +46,7 @@ class QuizController extends ApiController
            'name'=>$request->input('name'),
            'user_id' => $request->user()->id,
            'number_of_questions'=>$request->input('name') === 'demo' ? 10 : Quiz::$TOTAL_NUMBER_OF_QUESTIONS,
-           'training_category_id'=>$request->input('training_category_id'),
-           'training_type_id'=>$request->input('training_type_id')
+           'training_id'=>$request->input('training_id'),
        ]);
 
        $questionIds = $this->allocateQuestionsToQuiz($quiz);
@@ -104,6 +104,13 @@ class QuizController extends ApiController
 
         $chapters = Chapter::all();
         $numberOfQuestions = $quiz->number_of_questions;
+        $training = Training::find($quiz->training_id);
+
+        //Get type of quiz that will be generated
+        $trainingCategory = $training->category->code;
+
+        //Get question based on category selected
+        $trainingType = \Str::lower($training->type->code);
 
         $quizQuestions = collect();
 
@@ -111,12 +118,10 @@ class QuizController extends ApiController
 
             foreach ($chapters as $chapter){
 
-                //Get type of quiz that will be generated
-                $trainingCategory = TrainingCategory::find($quiz->training_category_id)->code;
+
                 $questionsPerChapter = self::QUIZ_TYPE[$trainingCategory][$chapter->name];
 
-                //Get question based on category selected
-                $trainingType = \Str::lower(TrainingType::find($quiz->training_type_id)->code);
+
 
                 $arrCategory = $this->getCategoriesCodes($trainingCategory);
 

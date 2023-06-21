@@ -1,1 +1,45 @@
 
+body{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.prof-body{
+    background-image: url("/assets/images/profiduciaria_overlay.jpg");
+    margin:auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.prof-header{
+    background-color: rgba(21,25,72);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.prof-navigation-list{
+    list-style: none;
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+    margin:0;
+    align-items: center;
+    height: 100%;
+}
+.prof-navigation-link{
+    color:#fff;
+    text-decoration: none;
+    display: flex;
+    gap:10px;
+}
+.prof-content{
+    width:100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color:#ffffff;
+}
+
