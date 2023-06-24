@@ -11,6 +11,8 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('code');
+            //Can change default price for training categories
+            $table->float('multiplier')->default(1);
             $table->timestamps();
         });
     }

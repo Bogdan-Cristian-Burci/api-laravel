@@ -34,7 +34,8 @@ class TrainingCategoryTransformer extends TransformerAbstract
     {
         return [
             'id'=>$trainingCategory->id,
-            'name'=>$trainingCategory->name
+            'name'=>$trainingCategory->name,
+            'multiplier'=>$trainingCategory->multiplier
         ];
     }
 }

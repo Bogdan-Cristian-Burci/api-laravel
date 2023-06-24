@@ -49,6 +49,7 @@ class UserTrainingsTransformer extends TransformerAbstract
             return[
                 "id"=>$category['id'],
                 "name"=>$category['name'],
+                "multiplier"=>$category['multiplier'],
                 "children"=>$children
             ];
         });

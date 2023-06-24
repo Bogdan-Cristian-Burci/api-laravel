@@ -115,4 +115,7 @@ return [
         ],
     ],
 
+    'contact_us'=>[
+        'to'=>env('MAIL_CONTACT_US','bogdan.cristian.burci@gmail.com')
+    ]
 ];

@@ -34,7 +34,8 @@ class TrainingTypeTransformer extends TransformerAbstract
     {
         return [
             'id'=>$type->id,
-            'name'=>$type->name
+            'name'=>$type->name,
+            'price'=>$type->price
         ];
     }
 }
