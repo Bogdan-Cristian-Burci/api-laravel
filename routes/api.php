@@ -48,6 +48,7 @@ Route::middleware(['auth:sanctum','verified'])->group(function () {
     ]);
 
     Route::get('last-quiz',[QuizController::class,'getLastQuizData']);
+    Route::post('user/update',[UserController::class,'update']);
     Route::get('user/summary',[UserController::class,'getSummary']);
     Route::get('user/user-data',[UserController::class,'getUser']);
     Route::get('user/all-trainings',[UserController::class,'getTrainings']);
@@ -62,9 +63,9 @@ Route::middleware(['auth:sanctum','verified'])->group(function () {
     Route::post('payment/form',[PaymentController::class,'getPaymentForm']);
 
     Route::post('contact-us',[MailController::class,'contactUs']);
-    Route::post('logout',[AuthController::class,'logout']);
-});
 
+});
+Route::post('logout',[AuthController::class,'logout'])->middleware('auth:sanctum');
 Route::post('register',[AuthController::class,'register']);
 Route::post('login',[AuthController::class,'login']);
 Route::post('forgot-password', [AuthController::class,'forgotPassword']);

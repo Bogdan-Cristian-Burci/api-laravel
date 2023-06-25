@@ -118,10 +118,7 @@ class QuizController extends ApiController
 
             foreach ($chapters as $chapter){
 
-
                 $questionsPerChapter = self::QUIZ_TYPE[$trainingCategory][$chapter->name];
-
-
 
                 $arrCategory = $this->getCategoriesCodes($trainingCategory);
 

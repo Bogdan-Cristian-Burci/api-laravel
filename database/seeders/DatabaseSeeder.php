@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             TrainingTypeSeeder::class,
             TrainingCategorySeeder::class,
             TrainingsSeeder::class,
-            RealQuestionsSeeder::class
+            RealQuestionsSeeder::class,
+            QuizDemoSeeder::class
         ]);
     }
 }

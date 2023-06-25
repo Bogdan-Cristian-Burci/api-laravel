@@ -33,7 +33,8 @@ class AuthController extends ApiController
             'last_name'=>$request->input('last_name'),
             'email'=>$request->input('email'),
             'phone'=>$request->input('phone'),
-            'password'=>Hash::make($request->input('password'))
+            'password'=>Hash::make($request->input('password')),
+            'icon_number' => 1
         ]);
 
         $availableTrainings = Training::all();
@@ -46,7 +47,7 @@ class AuthController extends ApiController
                 'training_id'=>$training->id,
                 'user_id'=>$user->id,
                 'active'=>false,
-                'expire_at'=>null
+                'expire_at'=>null,
             ]);
         }
 
@@ -163,11 +164,17 @@ class AuthController extends ApiController
         return $this->successResponse($data);
     }
 
-    public function logout(){
+    public function logout(Request $request){
+        try{
+            $request->user()->tokens()->delete();
+            return $this->successResponse(null,'User logout successfully');
+        }catch (\Exception $e){
+            Log::error('logout exception'.$e->getMessage());
+            return $this->errorResponse($e->getCode(), $e->getMessage());
+        }
 
-        auth()->user()->tokens()->delete();
 
-        return $this->successResponse(null,'User logout successfully');
+
     }
     public function verifyEmail(Request $request){
 

@@ -3,6 +3,7 @@
 namespace App\Transformers;
 
 use App\Models\User;
+use Carbon\Carbon;
 use League\Fractal\TransformerAbstract;
 
 class UserTrainingsTransformer extends TransformerAbstract
@@ -42,7 +43,7 @@ class UserTrainingsTransformer extends TransformerAbstract
                     "training_id"=>$item['id'],
                     ...$item['type'],
                     "active"=>$item['active'],
-                    "expire"=>$item['expire_at']
+                    "expire"=>Carbon::parse( $item['expire_at'])->toDateString()
                 ];
             })->values();
 
