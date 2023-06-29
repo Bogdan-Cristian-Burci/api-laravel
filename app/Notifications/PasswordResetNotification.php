@@ -30,18 +30,19 @@ class PasswordResetNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['email'];
     }
 
     /**
-     * Get the mail representation of the notification.
+     * Get the email representation of the notification.
      *
      * @param  mixed  $notifiable
      * @return MailMessage
      */
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage)->markdown('mail.password.reset',['token'=>$this->token, 'userName'=>$notifiable->name]);
+        return (new MailMessage)->subject('Bine ai venit!')
+            ->view('email-template.reset-password',['token'=>$this->token, 'userName'=>$notifiable->name]);
     }
 
     /**

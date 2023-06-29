@@ -1,4 +1,4 @@
-@component('mail::message')
+@component('email::message')
 Resetare parola
 
 Buna {{$userName}}

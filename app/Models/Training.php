@@ -28,8 +28,4 @@ class Training extends Model
         return $this->belongsToMany(User::class,'users_trainings');
     }
 
-    public function order(): BelongsToMany
-    {
-        return $this->belongsToMany(Order::class, 'order_training');
-    }
 }

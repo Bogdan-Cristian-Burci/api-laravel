@@ -29,9 +29,9 @@ class Order extends Model
         'status',
     ];
 
-    public function trainings(): BelongsToMany
+    public function userTrainings(): BelongsToMany
     {
-        return $this->belongsToMany(Training::class, 'order_training');
+        return $this->belongsToMany(UserTraining::class, 'order_user_training');
     }
 
     public function user(): BelongsTo

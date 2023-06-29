@@ -10,6 +10,7 @@ use App\Models\Quiz;
 use App\Models\Training;
 use App\Models\TrainingCategory;
 use App\Models\TrainingType;
+use App\Models\UserTraining;
 use App\Transformers\PaginatorAdapter;
 use App\Transformers\Quiz\QuizTransformer;
 use Illuminate\Http\JsonResponse;
@@ -42,11 +43,12 @@ class QuizController extends ApiController
      */
     public function store(QuizRequest $request)
     {
+        $userTraining=UserTraining::find($request->input('training_id'));
        $quiz = Quiz::create([
            'name'=>$request->input('name'),
            'user_id' => $request->user()->id,
            'number_of_questions'=>$request->input('name') === 'demo' ? 10 : Quiz::$TOTAL_NUMBER_OF_QUESTIONS,
-           'training_id'=>$request->input('training_id'),
+           'training_id'=>$userTraining->training_id,
        ]);
 
        $questionIds = $this->allocateQuestionsToQuiz($quiz);

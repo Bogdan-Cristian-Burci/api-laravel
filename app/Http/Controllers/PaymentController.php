@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PaymentRequest;
 use App\Models\Order;
+use App\Models\User;
+use App\Notifications\AfterPurchaseNotification;
+use App\Notifications\PreExpirationNotification;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -44,16 +47,15 @@ class PaymentController extends ApiController
     public $errorMessage;
     public function getPaymentForm(PaymentRequest $request){
 
+        $requiredServices = $request->input('services_array');
 
         $user = request()->user();
 
         $this->paymentUrl   = config('netopia.url');
-        $this->x509FilePath = storage_path('app/sandbox.2R4O-SDR2-JZSR-Y7WJ-KIEZ.public.cer');
+        $this->x509FilePath = storage_path(config('netopia.public_certificate'));
 
         $returnPaymentUrl =  config('app.url').'api/payment/success';
         $confirmPaymentUrl =  config('app.url').'api/payment/return';
-
-
 
         try {
 
@@ -71,7 +73,8 @@ class PaymentController extends ApiController
                 'payment_id'=>$orderId
             ]);
 
-            $newOrder->trainings()->attach($request->input('services_array'));
+            $newOrder->userTrainings()->attach($requiredServices);
+
             /*
              * Invoices info
              */
@@ -79,16 +82,15 @@ class PaymentController extends ApiController
             $paymentRequest->invoice->currency  = config('netopia.currency');
             $paymentRequest->invoice->amount    = $request->input('total_amount');
             $paymentRequest->invoice->tokenId   = null;
-            $paymentRequest->invoice->details   = "Plata servicii Pro Fiduciaria";
+            $paymentRequest->invoice->details   = config('netopia.invoice_description');
 
             /*
              * Billing Info
              */
             $this->billingAddress = new Address();
             $this->billingAddress->type         = "person"; //should be "person" / "company"
-            $this->billingAddress->firstName    = $user->name;
-            $this->billingAddress->lastName     = $user->name;
-           // $this->billingAddress->address      = "Bulevardul Ion Creangă, Nr 00";
+            $this->billingAddress->firstName    = $user->first_name;
+            $this->billingAddress->lastName     = $user->last_name;
             $this->billingAddress->email        = $user->email;
             $this->billingAddress->mobilePhone  = $user->phone;
             $paymentRequest->invoice->setBillingAddress($this->billingAddress);
@@ -123,7 +125,7 @@ class PaymentController extends ApiController
         $this->errorMessage = '';
 
         $this->paymentUrl = config('netopia.url');
-        $this->x509FilePath = storage_path('app/sandbox.2R4O-SDR2-JZSR-Y7WJ-KIEZprivate.key');
+        $this->x509FilePath = storage_path(config('netopia.private_key'));
 
         if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') == 0){
 
@@ -133,17 +135,13 @@ class PaymentController extends ApiController
                     $rrn = $paymentRequestIpn->objPmNotify->rrn;
                     $order=Order::where('payment_id',$paymentRequestIpn->orderId)->first();
 
-                    \Log::info('rrn is '.json_encode($rrn));
-                    \Log::info('------------------------------------------');
-
-                    \Log::info('$paymentRequestIpn is '.json_encode($paymentRequestIpn));
                     if ($paymentRequestIpn->objPmNotify->errorCode == 0) {
 
                         switch($paymentRequestIpn->objPmNotify->action){
                             case 'confirmed':
                                 //update DB, SET status = "confirmed/captured"
                                 $order->status=Order::STATUS['CONFIRMED'];
-                                $orderTrainings = $order->trainings->pluck('id');
+                                $orderTrainings = $order->userTrainings->pluck('id');
                                 $userBoughtTrainings = $order->user->assignTrainings->whereIn('id',$orderTrainings);
                                 $userBoughtTrainings->each(function($order){
                                    $order->update([
@@ -151,6 +149,10 @@ class PaymentController extends ApiController
                                        'expire_at'=>Carbon::now()->addDays(30)
                                    ]);
                                 });
+                                $user = User::find($order->user->id);
+                                \Log::info('after payment user is'.json_encode($user));
+                                $user->notify( new AfterPurchaseNotification());
+
 
                                 $this->errorMessage = $paymentRequestIpn->objPmNotify->errorMessage;
                                 break;

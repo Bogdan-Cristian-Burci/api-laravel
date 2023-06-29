@@ -13,11 +13,11 @@ class OrderTrainingTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_training', function (Blueprint $table) {
+        Schema::create('order_user_training', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('order_id');
-            $table->unsignedBigInteger('training_id');
-            $table->foreign('training_id')->references('id')->on('trainings');
+            $table->unsignedBigInteger('user_training_id');
+            $table->foreign('user_training_id')->references('id')->on('users_trainings');
             $table->foreign('order_id')->references('id')->on('orders');
         });
     }

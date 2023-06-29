@@ -17,6 +17,6 @@ class MailController extends Controller
             'subject'=>'Solicitare contact aplicatie mobila'
         ];
 
-        Mail::to(config('mail.contact_us.to'))->send(new ContacUsMail($data));
+        Mail::to(config('email.contact_us.to'))->send(new ContacUsMail($data));
     }
 }

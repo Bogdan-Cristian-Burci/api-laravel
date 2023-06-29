@@ -11,6 +11,7 @@ use App\Models\PasswordReset;
 use App\Models\Training;
 use App\Models\User;
 use App\Models\UserTraining;
+use App\Notifications\AfterEmailValidationNotification;
 use App\Notifications\PasswordResetNotification;
 use App\Transformers\User\CreateUserTransformer;
 use App\Transformers\User\LoginTransformer;
@@ -172,9 +173,6 @@ class AuthController extends ApiController
             Log::error('logout exception'.$e->getMessage());
             return $this->errorResponse($e->getCode(), $e->getMessage());
         }
-
-
-
     }
     public function verifyEmail(Request $request){
 
@@ -185,17 +183,17 @@ class AuthController extends ApiController
         }
 
         if($user->markEmailAsVerified()){
-            event( new Verified($user));
+           $user->notify(new AfterEmailValidationNotification());
         }
 
         return redirect('/api/email/verify/success');
     }
 
     public function emailSuccess(){
-        return view('mail.verify.success');
+        return view('email.verify.success');
     }
 
     public function alreadyChecked(){
-        return view('mail.verify.already-success');
+        return view('email.verify.already-success');
     }
 }

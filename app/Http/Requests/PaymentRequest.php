@@ -25,7 +25,7 @@ class PaymentRequest extends FormRequest
     {
         return [
             'total_amount'=>'required',
-            'services_array' => 'required |array'
+            'services_array' => 'required'
         ];
     }
 }

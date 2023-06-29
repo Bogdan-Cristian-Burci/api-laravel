@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,7 @@ Route::get('/', function () {
 Route::get('/form', function($env, $data){
     return view('form', compact('env','data'));
 })->name('form');
+
+Route::get('/email',function (){
+   return view('email-template.confirmation');
+});
