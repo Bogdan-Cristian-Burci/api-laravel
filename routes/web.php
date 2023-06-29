@@ -18,10 +18,3 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/form', function($env, $data){
-    return view('form', compact('env','data'));
-})->name('form');
-
-Route::get('/email',function (){
-   return view('email-template.confirmation');
-});
