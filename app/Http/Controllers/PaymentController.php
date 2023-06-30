@@ -10,6 +10,8 @@ use App\Notifications\AfterPurchaseNotification;
 use App\Notifications\PreExpirationNotification;
 use Carbon\Carbon;
 use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 use Netopia\Payment\Address;
 use Netopia\Payment\Invoice;
@@ -133,6 +135,8 @@ class PaymentController extends ApiController
                 try {
                     $paymentRequestIpn = PaymentAbstract::factoryFromEncrypted($request->input('env_key'),$request->input('data'),$this->x509FilePath);
                     $rrn = $paymentRequestIpn->objPmNotify->rrn;
+
+                    Log::info(' Netopia response is:'.json_encode($paymentRequestIpn));
                     $order=Order::where('payment_id',$paymentRequestIpn->orderId)->first();
 
                     if ($paymentRequestIpn->objPmNotify->errorCode == 0) {
@@ -153,6 +157,7 @@ class PaymentController extends ApiController
                                 \Log::info('after payment user is'.json_encode($user));
                                 $user->notify( new AfterPurchaseNotification());
 
+                                $this->sendDataToSmartBill();
 
                                 $this->errorMessage = $paymentRequestIpn->objPmNotify->errorMessage;
                                 break;
@@ -198,6 +203,8 @@ class PaymentController extends ApiController
                     $this->errorType = PaymentAbstract::CONFIRM_ERROR_TYPE_TEMPORARY;
                     $this->errorCode = $e->getCode();
                     $this->errorMessage = $e->getMessage();
+                } catch (GuzzleException $e) {
+                    Log::error('Guzzle exception :'.$e->getMessage());
                 }
 
             }else{
@@ -228,7 +235,60 @@ class PaymentController extends ApiController
         }
     }
 
-    public function return(Request $request){
-        \Log::info('From return '.json_encode($request));
+    /**
+     * @throws GuzzleException
+     */
+    public function sendDataToSmartBill($data=[]){
+
+        $client = new Client(['base_uri'=>'https://ws.smartbill.ro']);
+
+        $authToken=base64_encode(config('smartbill.user').':'.config('smartbill.token'));
+
+        Log::info('auth token is'.$authToken);
+        try{
+            $client->post('/SBORO/api/invoice',[
+                'headers'=>[
+                    'Accept'=>'application/json',
+                    'Content-Type'=>'application/json',
+                    'Authorization'=>'Basic '.$authToken
+                ],
+                'json'=>$this->setSmartBillData($data)
+            ]);
+        }catch (\Exception $e){
+            Log::error('Guzzle smart bill post request error: '.$e->getMessage());
+        }
+
+    }
+
+    public function setSmartBillData(){
+
+        return [
+            'companyVatCode'=>config('smartbill.vat_code'),
+            'client'=>[
+                'name'=>'Test',
+                'email'=>'bogdan.cristian.burci@gmail.com',
+                'country'=> "Romania",
+                'saveToDb'=>false
+            ],
+            'seriesName'=>config('smartbill.series'),
+            'dueDate'=> Carbon::now()->addDays(config('smartbill.due_date'))->toDateString(),
+            'sendEmail'=> true,
+            'email'=>[
+                'to'=>'bogdan.cristian.burci@gmail.com',
+                'cc'=>'bogdanburci81@gmail.com'
+            ],
+            'products'=>[
+                [
+                    'name'=>'Abonament servicii',
+                    'currency'=>config('smartbill.currency'),
+                    'quantity'=>1,
+                    'price'=>10,
+                    'isTaxIncluded'=>config('smartbill.tax_included'),
+                    'taxPercentage'=>config('smartbill.tax_percentage'),
+                    'measuringUnitName'=>'buc',
+                    'isService'=>config('smartbill.is_service')
+                ]
+            ]
+        ];
     }
 }

@@ -76,3 +76,5 @@ Route::post('payment/success',[PaymentController::class,'paymentSuccess']);
 Route::get('/email/verify/success',[AuthController::class,'emailSuccess']);
 Route::get('/email/verify/{id}/{hash}',[AuthController::class,'verifyEmail'])->name('verification.verify');
 Route::get('/email/verify/already-success',[AuthController::class,'alreadyChecked']);
+
+Route::post('/test/smart-bill',[PaymentController::class,'sendDataToSmartBill']);
