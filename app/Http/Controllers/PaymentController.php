@@ -7,7 +7,7 @@ use App\Http\Requests\PaymentRequest;
 use App\Models\Order;
 use App\Models\User;
 use App\Notifications\AfterPurchaseNotification;
-use App\Notifications\PreExpirationNotification;
+
 use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
@@ -157,7 +157,7 @@ class PaymentController extends ApiController
                                 \Log::info('after payment user is'.json_encode($user));
                                 $user->notify( new AfterPurchaseNotification());
 
-                                $this->sendDataToSmartBill();
+                                $this->sendDataToSmartBill($order);
 
                                 $this->errorMessage = $paymentRequestIpn->objPmNotify->errorMessage;
                                 break;
@@ -238,7 +238,7 @@ class PaymentController extends ApiController
     /**
      * @throws GuzzleException
      */
-    public function sendDataToSmartBill($data=[]){
+    public function sendDataToSmartBill($order){
 
         $client = new Client(['base_uri'=>'https://ws.smartbill.ro']);
 
@@ -252,7 +252,7 @@ class PaymentController extends ApiController
                     'Content-Type'=>'application/json',
                     'Authorization'=>'Basic '.$authToken
                 ],
-                'json'=>$this->setSmartBillData($data)
+                'json'=>$this->setSmartBillData($order)
             ]);
         }catch (\Exception $e){
             Log::error('Guzzle smart bill post request error: '.$e->getMessage());
@@ -260,13 +260,15 @@ class PaymentController extends ApiController
 
     }
 
-    public function setSmartBillData(){
+    public function setSmartBillData($order){
+
+        $user = $order->user;
 
         return [
             'companyVatCode'=>config('smartbill.vat_code'),
             'client'=>[
-                'name'=>'Test',
-                'email'=>'bogdan.cristian.burci@gmail.com',
+                'name'=>$user->first_name.' '.$user->last_name,
+                'email'=>$user->email,
                 'country'=> "Romania",
                 'saveToDb'=>false
             ],
@@ -277,18 +279,31 @@ class PaymentController extends ApiController
                 'to'=>'bogdan.cristian.burci@gmail.com',
                 'cc'=>'bogdanburci81@gmail.com'
             ],
-            'products'=>[
-                [
-                    'name'=>'Abonament servicii',
+            'products'=>$this->getOrderTrainings($order)
+        ];
+    }
+
+    public function getOrderTrainings($order){
+
+        $userTrainings =  $order->userTrainings;
+
+        $trainings = [];
+        if($userTrainings->count() > 0 ){
+            foreach ($userTrainings as $userTraining){
+                $trainings[]=[
+                    'name'=>$userTraining->training->category->name . ' - '.$userTraining->training->type->name,
                     'currency'=>config('smartbill.currency'),
                     'quantity'=>1,
-                    'price'=>10,
+                    'price'=>$userTraining->training->type->price * $userTraining->training->category->multiplier,
                     'isTaxIncluded'=>config('smartbill.tax_included'),
                     'taxPercentage'=>config('smartbill.tax_percentage'),
                     'measuringUnitName'=>'buc',
                     'isService'=>config('smartbill.is_service')
-                ]
-            ]
-        ];
+                ];
+            }
+        }
+
+        return $trainings;
+
     }
 }

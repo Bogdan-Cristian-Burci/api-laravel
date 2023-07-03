@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\UserTraining;
 use App\Notifications\ExpirationNotification;
 use App\Notifications\PreExpirationNotification;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
