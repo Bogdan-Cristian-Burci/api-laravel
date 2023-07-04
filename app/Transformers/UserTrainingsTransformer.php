@@ -43,6 +43,7 @@ class UserTrainingsTransformer extends TransformerAbstract
                     "training_id"=>$item['id'],
                     ...$item['type'],
                     "active"=>$item['active'],
+                    "demo"=>$item['demo'],
                     "expire"=> $item['expire_at'] ? Carbon::parse( $item['expire_at'])->toDateString(): null
                 ];
             })->values();

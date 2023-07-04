@@ -18,6 +18,7 @@ class UsersTrainingTable extends Migration
             $table->unsignedBigInteger('training_id');
             $table->unsignedBigInteger('user_id');
             $table->boolean('active')->default(false);
+            $table->boolean('demo_available')->default(true);
             $table->foreign('training_id')->references('id')->on('trainings');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamp('expire_at')->nullable();

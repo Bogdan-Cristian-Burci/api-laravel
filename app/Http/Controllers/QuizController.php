@@ -8,8 +8,6 @@ use App\Models\Chapter;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\Training;
-use App\Models\TrainingCategory;
-use App\Models\TrainingType;
 use App\Models\UserTraining;
 use App\Transformers\PaginatorAdapter;
 use App\Transformers\Quiz\QuizTransformer;
@@ -20,7 +18,7 @@ class QuizController extends ApiController
 
     private const QUIZ_TYPE=[
         "X"=>["C1"=>4,"C2"=>4,"C3"=>4,"C4"=>4,"C5"=>4,"C6"=>4,"C7"=>4,"C8"=>4,"C9"=>4,"C10"=>0,"C11"=>4],
-        "CO_CE"=>["C1"=>4,"C2"=>4,"C3"=>4,"C4"=>4,"C5"=>4,"C6"=>4,"C7"=>4,"C8"=>4,"C9"=>4,"C10"=>2,"C11"=>2],
+        "CO CE"=>["C1"=>4,"C2"=>4,"C3"=>4,"C4"=>4,"C5"=>4,"C6"=>4,"C7"=>4,"C8"=>4,"C9"=>4,"C10"=>2,"C11"=>2],
         "CE"=>["C1"=>4,"C2"=>4,"C3"=>4,"C4"=>4,"C5"=>4,"C6"=>4,"C7"=>4,"C8"=>4,"C9"=>4,"C10"=>2,"C11"=>2]
     ];
     /**
@@ -44,10 +42,17 @@ class QuizController extends ApiController
     public function store(QuizRequest $request)
     {
         $userTraining=UserTraining::find($request->input('training_id'));
+        $numberOfQuestions = Quiz::$TOTAL_NUMBER_OF_QUESTIONS;
+        if($request->input('name') === 'Demo'){
+            $userTraining->update([
+                'demo_available'=>false
+            ]);
+            $numberOfQuestions=10;
+        }
        $quiz = Quiz::create([
            'name'=>$request->input('name'),
            'user_id' => $request->user()->id,
-           'number_of_questions'=>$request->input('name') === 'demo' ? 10 : Quiz::$TOTAL_NUMBER_OF_QUESTIONS,
+           'number_of_questions'=>$numberOfQuestions,
            'training_id'=>$userTraining->training_id,
        ]);
 
@@ -134,7 +139,7 @@ class QuizController extends ApiController
                     $quizQuestions=$quizQuestions->merge($remainingChapterQuestions);
                 }
                 // If we've selected enough questions, exit the loop
-                if ($quizQuestions->count() >= $numberOfQuestions) {
+                if ($quizQuestions->count() >= Quiz::$TOTAL_NUMBER_OF_QUESTIONS) {
                     break;
                 }
 
@@ -143,7 +148,7 @@ class QuizController extends ApiController
         }else{
             $quizQuestions = Question::take($numberOfQuestions)->get();
         }
-
+        $quizQuestions=$quizQuestions->take($numberOfQuestions);
         return $quizQuestions->pluck('id')->toArray();
 
     }

@@ -11,7 +11,7 @@ class UserTraining extends Model
 {
     protected $table='users_trainings';
 
-    protected $fillable=['training_id','user_id','active','expire_at'];
+    protected $fillable=['training_id','user_id','active','expire_at','demo_available'];
 
     public function orders(): BelongsToMany
     {

@@ -38,6 +38,7 @@ class SingleUserTrainingTransformer extends TransformerAbstract
             'id'=>$training->id,
             'active'=>$training->active,
             'expire_at'=>$training->expire_at,
+            'demo'=>$training->demo_available,
              ...$trn
         ];
     }
