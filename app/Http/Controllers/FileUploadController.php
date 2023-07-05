@@ -9,7 +9,9 @@ class FileUploadController extends Controller
     public function upload(Request $request)
     {
         if($request->hasFile('file')){
-            $path=$request->file('file')->store('/');
+            $file = $request->file('file');
+            $fileName = $file->getClientOriginalName();
+            $path=$file->storeAs('/',$fileName);
             return response()->json($path);
         }
 
