@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\QuizController;
@@ -64,6 +65,8 @@ Route::middleware(['auth:sanctum','verified'])->group(function () {
 
     Route::post('contact-us',[MailController::class,'contactUs']);
 
+    Route::get('cities/counties',[CityController::class,'getCounties']);
+    Route::get('cities/city/{city}',[CityController::class,'getCities']);
 });
 Route::post('logout',[AuthController::class,'logout'])->middleware('auth:sanctum');
 Route::post('register',[AuthController::class,'register']);

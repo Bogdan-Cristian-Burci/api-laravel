@@ -27,7 +27,11 @@ class UpdateUserRequest extends FormRequest
             'first_name' => 'sometimes | required|string|max:255',
             'last_name' => 'sometimes | required|string|max:255',
             'phone'=>'sometimes | required',
-            'icon_number'=>'sometimes | required'
+            'icon_number'=>'sometimes | required',
+            'street'=>'sometimes | required',
+            'street_additional'=>'sometimes | required',
+            'county'=>'sometimes | required',
+            'city'=>'sometimes | required'
         ];
     }
 }
