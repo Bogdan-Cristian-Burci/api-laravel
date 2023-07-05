@@ -36,7 +36,8 @@ class LoginTransformer extends TransformerAbstract
     public function transform(User $user): array
     {
         return [
-            'name' => $user->name,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
             'id' =>$user->id
         ];
     }
