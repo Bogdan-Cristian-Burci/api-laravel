@@ -54,7 +54,11 @@ class UserSummaryTransformer extends TransformerAbstract
             "phone"=>$user->phone,
             "icon"=>$user->icon_number,
             "totalQuizzes"=>$user->quizzes->count(),
-            "averagePoints"=>$averagePoints
+            "averagePoints"=>$averagePoints,
+            "street"=>$user->street,
+            "street2"=>$user->street_additional,
+            "county"=>json_decode($user->county),
+            "city"=>json_decode($user->city)
         ];
     }
 }
