@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Laravel 8 Form </title>
+    <title>Upload files </title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
@@ -14,18 +14,14 @@
     @endif
     <div class="card">
         <div class="card-header text-center font-weight-bold">
-            Plata serviciu
+            Upload files
         </div>
         <div class="card-body">
-            <form name="add-blog-post-form" id="add-blog-post-form" method="post" action="http://sandboxsecure.mobilpay.ro">
+            <form name="add-blog-post-form" enctype="multipart/form-data" method="post" action="/upload">
                 @csrf
                 <div class="form-group">
                     <label for="exampleInputEmail1">Title</label>
-                    <input type="hidden" id="title" name="env_key" class="form-control" value="{{$env}}">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Description</label>
-                    <input type="hidden" name="data" class="form-control" value="{{$data}}"></input>
+                    <input type="file" name="file">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
