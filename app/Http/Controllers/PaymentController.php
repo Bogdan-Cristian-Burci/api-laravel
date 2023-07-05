@@ -244,6 +244,10 @@ class PaymentController extends ApiController
 
         $authToken=base64_encode(config('smartbill.user').':'.config('smartbill.token'));
 
+        $smartBillObject = $this->setSmartBillData($order);
+
+        Log::info('smart bill object', $smartBillObject);
+
         Log::info('auth token is'.$authToken);
         try{
             $client->post('/SBORO/api/invoice',[
@@ -252,7 +256,7 @@ class PaymentController extends ApiController
                     'Content-Type'=>'application/json',
                     'Authorization'=>'Basic '.$authToken
                 ],
-                'json'=>$this->setSmartBillData($order)
+                'json'=>$smartBillObject
             ]);
         }catch (\Exception $e){
             Log::error('Guzzle smart bill post request error: '.$e->getMessage());
@@ -269,6 +273,9 @@ class PaymentController extends ApiController
             'client'=>[
                 'name'=>$user->first_name.' '.$user->last_name,
                 'email'=>$user->email,
+                'city'=>json_decode($user->city,true)["nume"],
+                'address'=>$user->street.' '.$user->street_aditional,
+                'county'=>json_decode($user->county,true)["nume"],
                 'country'=> "Romania",
                 'saveToDb'=>false
             ],
@@ -276,8 +283,8 @@ class PaymentController extends ApiController
             'dueDate'=> Carbon::now()->addDays(config('smartbill.due_date'))->toDateString(),
             'sendEmail'=> true,
             'email'=>[
-                'to'=>'bogdan.cristian.burci@gmail.com',
-                'cc'=>'bogdanburci81@gmail.com'
+                'to'=>config('smartbill.email_to'),
+                'cc'=>config('smartbill.email_cc')
             ],
             'products'=>$this->getOrderTrainings($order)
         ];

@@ -61,5 +61,14 @@ return [
      * Set if the sold products are services or not
      */
 
-    'is_service'=>env('SMART_BILL_IS_SERVICE',true)
+    'is_service'=>env('SMART_BILL_IS_SERVICE',true),
+
+    /*
+     *
+     * Email
+     */
+
+    'email_to'=>env('SMART_BILL_EMAIL_TO',''),
+    'email_cc'=>env('SMART_BILL_EMAIL_CC',''),
+
 ];
