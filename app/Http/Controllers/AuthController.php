@@ -16,6 +16,7 @@ use App\Notifications\PasswordResetNotification;
 use App\Transformers\User\CreateUserTransformer;
 use App\Transformers\User\LoginTransformer;
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -74,7 +75,7 @@ class AuthController extends ApiController
 
                 return $this->successResponse($data);
             }else{
-                throw new ModelNotFoundException();
+                throw new AuthenticationException('Parola incorecta');
             }
         }catch(Exception $e){
             Log::error('Error on login: ' . $e->getMessage());
