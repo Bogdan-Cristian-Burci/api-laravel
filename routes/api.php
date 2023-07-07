@@ -75,7 +75,7 @@ Route::post('forgot-password', [AuthController::class,'forgotPassword']);
 Route::post('reset-password', [AuthController::class,'resetPassword']);
 Route::post('validate-token', [AuthController::class,'validateToken']);
 Route::post('payment/return',[PaymentController::class,'instantPaymentNotification']);
-Route::post('payment/success',[PaymentController::class,'paymentSuccess']);
+Route::get('payment/success',[PaymentController::class,'paymentSuccess']);
 Route::get('/email/verify/success',[AuthController::class,'emailSuccess']);
 Route::get('/email/verify/{id}/{hash}',[AuthController::class,'verifyEmail'])->name('verification.verify');
 Route::get('/email/verify/already-success',[AuthController::class,'alreadyChecked']);
