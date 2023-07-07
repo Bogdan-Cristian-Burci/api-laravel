@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -83,6 +84,10 @@ class Handler extends ExceptionHandler
         }
         if($exception instanceof NotFoundResourceException){
             return $this->errorResponse(404,'Resource not found');
+        }
+
+        if($exception instanceof AuthenticationException){
+            return $this->errorResponse(401,'Incorrect password');
         }
 
         if (config('app.debug')) {
