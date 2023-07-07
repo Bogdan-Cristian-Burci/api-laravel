@@ -313,4 +313,8 @@ class PaymentController extends ApiController
         return $trainings;
 
     }
+
+    public function paymentSuccess(){
+        return view('netopia-exit');
+    }
 }
