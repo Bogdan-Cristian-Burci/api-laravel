@@ -16,7 +16,7 @@
                 <tbody>
                 <tr style="text-align: center">
                     <td width="100%">
-                        <img src="{{URL::asset('assets/images/logo_profiduciaria_black.png')}}" alt="Pro Fiduciaria" style="width:200px" />
+                        <img src="{{$message->embed('assets/images/logo_profiduciaria_black.png')}}" alt="Pro Fiduciaria" style="width:200px" />
                     </td>
                 </tr>
                 <tr>
@@ -43,13 +43,13 @@
                 <tr style="text-align: center">
                     <td style="padding-top: 20px">
                         <a href="https://www.facebook.com/ProFiduciaria/" style="margin-right: 10px;text-decoration: none;">
-                            <img src="{{URL::asset('assets/icons/social/Facebook-48x48.png')}}" alt="Facebook" style="width:30px;height:30px"/>
+                            <img src="{{$message->embed('assets/icons/social/Facebook-48x48.png')}}" alt="Facebook" style="width:30px;height:30px"/>
                         </a>
                         <a href="" style="margin-right: 10px;text-decoration: none;">
-                            <img src="{{URL::asset('assets/icons/social/YouTube-48x48.png')}}" alt="Youtube" style="width:30px;height:30px"/>
+                            <img src="{{$message->embed('assets/icons/social/YouTube-48x48.png')}}" alt="Youtube" style="width:30px;height:30px"/>
                         </a>
                         <a href="https://www.youtube.com/channel/UCx1k768KMZh61g5dsHOez5Q" style="margin-right: 10px;text-decoration: none;">
-                            <img src="{{URL::asset('assets/icons/social/LinkedIn-48x48.png')}}" alt="Linkedin" style="width:30px;height:30px"/>
+                            <img src="{{$message->embed('assets/icons/social/LinkedIn-48x48.png')}}" alt="Linkedin" style="width:30px;height:30px"/>
                         </a>
                     </td>
                 </tr>
