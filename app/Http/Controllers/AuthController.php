@@ -18,6 +18,7 @@ use App\Transformers\User\LoginTransformer;
 use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Hash;
@@ -72,6 +73,8 @@ class AuthController extends ApiController
                 ])->toArray();
 
                 return $this->successResponse($data);
+            }else{
+                throw new ModelNotFoundException();
             }
         }catch(Exception $e){
             Log::error('Error on login: ' . $e->getMessage());
