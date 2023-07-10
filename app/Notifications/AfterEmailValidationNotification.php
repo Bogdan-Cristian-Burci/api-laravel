@@ -18,7 +18,7 @@ class AfterEmailValidationNotification extends Notification
 
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage)
+        return (new MailMessage)->subject('Confirmare activare cont')
             ->view('email-template.account-created',['name'=>$notifiable->first_name]);
     }
 
