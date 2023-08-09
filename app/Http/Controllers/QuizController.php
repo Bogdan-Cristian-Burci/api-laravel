@@ -166,6 +166,7 @@ class QuizController extends ApiController
         $totalQuestions = $lastQuiz->number_of_questions;
 
         $data = [
+            "type"=>$lastQuiz->training_id,
             "total"=>$totalQuestions,
             "correct"=>$correctAnswers,
             "incorrect"=>$inCorrectAnswers,

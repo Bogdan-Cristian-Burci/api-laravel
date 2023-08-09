@@ -16,7 +16,7 @@
                 <tbody>
                 <tr style="text-align: center">
                     <td width="100%">
-                        <img src="{{$message->embed('assets/images/logo_profiduciaria_black.png')}}" alt="Pro Fiduciaria" style="width:200px" />
+                        <img width="200" src="{{$message->embed('assets/images/logo_profiduciaria_black.png')}}" alt="Pro Fiduciaria" style="width:200px" />
                     </td>
                 </tr>
                 <tr>

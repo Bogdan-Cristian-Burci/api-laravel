@@ -18,8 +18,6 @@ use App\Transformers\User\LoginTransformer;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Events\Verified;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Hash;
