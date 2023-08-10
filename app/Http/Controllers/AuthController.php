@@ -26,6 +26,7 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class AuthController extends ApiController
 {
+    public const GIRLS_NAMES = ['Agnes', 'Ingrid', 'Carmen', 'Edith', 'Noemi','Beatrice','Erin','Iris','Miriam','Naomi','Noemi','Odette','Zoe'];
 
     public function register(CreateUserRequest $request)
     {
@@ -35,8 +36,17 @@ class AuthController extends ApiController
             'email'=>$request->input('email'),
             'phone'=>$request->input('phone'),
             'password'=>Hash::make($request->input('password')),
-            'icon_number' => 1
+            'icon_number' => 3
         ]);
+
+        //check if user first name is a boy or a girl name
+        if (preg_match('/[ae]$/', $user->first_name) ||  in_array($user->first_name,self::GIRLS_NAMES)) {
+            $user->update([
+                'icon_number' => 1
+            ]);
+        }
+
+
 
         $availableTrainings = Training::all();
 
