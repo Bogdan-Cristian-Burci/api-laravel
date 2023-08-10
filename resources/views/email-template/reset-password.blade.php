@@ -1,6 +1,6 @@
 @extends('email-template.layout')
 @section('salutation')
-    <h2 style="text-align: center">Salut {{$name}},</h2>
+    <h2 style="text-align: center">Salut {{$userName}},</h2>
 @endsection
 
 @section('content')
