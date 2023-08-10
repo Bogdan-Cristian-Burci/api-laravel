@@ -136,7 +136,6 @@ class PaymentController extends ApiController
                     $paymentRequestIpn = PaymentAbstract::factoryFromEncrypted($request->input('env_key'),$request->input('data'),$this->x509FilePath);
                     $rrn = $paymentRequestIpn->objPmNotify->rrn;
 
-                    Log::info(' Netopia response is:'.json_encode($paymentRequestIpn));
                     $order=Order::where('payment_id',$paymentRequestIpn->orderId)->first();
 
                     if ($paymentRequestIpn->objPmNotify->errorCode == 0) {
@@ -154,7 +153,7 @@ class PaymentController extends ApiController
                                    ]);
                                 });
                                 $user = User::find($order->user->id);
-                                \Log::info('after payment user is'.json_encode($user));
+
                                 $user->notify( new AfterPurchaseNotification());
 
                                 $this->sendDataToSmartBill($order);
@@ -187,7 +186,6 @@ class PaymentController extends ApiController
                                 $this->errorMessage = $paymentRequestIpn->objPmNotify->errorMessage;
                                 break;
                             default:
-                                \Log::info('default ');
                                 $errorType = PaymentAbstract::CONFIRM_ERROR_TYPE_PERMANENT;
                                 $this->errorCode = PaymentAbstract::ERROR_CONFIRM_INVALID_ACTION;
                                 $this->errorMessage = 'mobilpay_refference_action paramaters is invalid';
@@ -199,7 +197,7 @@ class PaymentController extends ApiController
                     }
                     $order->save();
                 }catch (\Exception $e) {
-                    \Log::info('try failed '.$e->getCode().' message:'.$e->getMessage());
+                    \Log::error('try failed '.$e->getCode().' message:'.$e->getMessage());
                     $this->errorType = PaymentAbstract::CONFIRM_ERROR_TYPE_TEMPORARY;
                     $this->errorCode = $e->getCode();
                     $this->errorMessage = $e->getMessage();
@@ -246,9 +244,6 @@ class PaymentController extends ApiController
 
         $smartBillObject = $this->setSmartBillData($order);
 
-        Log::info('smart bill object', $smartBillObject);
-
-        Log::info('auth token is'.$authToken);
         try{
             $client->post('/SBORO/api/invoice',[
                 'headers'=>[
