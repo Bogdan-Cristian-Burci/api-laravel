@@ -15,7 +15,7 @@
 
 <header class="prof-header">
     <div class="prof-logo">
-        <img src="{{asset('./assets/images/profiduciaria_logo_white.png')}}" alt="Profiduciaria Logo"/>
+        <img src="{{asset('./assets/images/profiduciaria_logo_white.png')}}" alt="Profiduciaria Logo" width="200"/>
     </div>
     <nav class="prof-navigation">
         <ul class="prof-navigation-list">

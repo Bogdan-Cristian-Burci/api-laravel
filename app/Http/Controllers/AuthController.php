@@ -36,7 +36,7 @@ class AuthController extends ApiController
             'email'=>$request->input('email'),
             'phone'=>$request->input('phone'),
             'password'=>Hash::make($request->input('password')),
-            'icon_number' => 3
+            'icon_number' => 2
         ]);
 
         //check if user first name is a boy or a girl name
@@ -45,8 +45,6 @@ class AuthController extends ApiController
                 'icon_number' => 1
             ]);
         }
-
-
 
         $availableTrainings = Training::all();
 

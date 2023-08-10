@@ -41,4 +41,18 @@ body{
     justify-content: center;
     align-items: center;
     color:#ffffff;
+    padding:20px 10px;
 }
+@media screen and (max-width: 768px){
+    .prof-header{
+        flex-direction: column;
+        gap: 10px;
+    }
+    .prof-navigation-link{
+        justify-content: center;
+    }
+}
+
+
+
+
