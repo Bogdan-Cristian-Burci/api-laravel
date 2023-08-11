@@ -145,6 +145,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'email' => [
+            'unique' => 'Adresa de email este deja inregistrata.',
+        ],
     ],
 
     /*
