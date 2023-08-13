@@ -11,6 +11,6 @@ class PasswordReset extends Model
 
     protected $guarded=[];
 
-    //since we don't have updated_at column we can override updated_at coumn fields
+    //since we don't have updated_at column we can override updated_at column fields
     const UPDATED_AT = null;
 }

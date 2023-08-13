@@ -278,7 +278,7 @@ class PaymentController extends ApiController
             'dueDate'=> Carbon::now()->addDays(config('smartbill.due_date'))->toDateString(),
             'sendEmail'=> true,
             'email'=>[
-                'to'=>config('smartbill.email_to'),
+                'to'=>$user->email,
                 'cc'=>config('smartbill.email_cc')
             ],
             'products'=>$this->getOrderTrainings($order)
