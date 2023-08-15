@@ -35,7 +35,7 @@ class UserSummaryTransformer extends TransformerAbstract
     public function transform(User $user): array
     {
         $totalQuizzes = $user->quizzes->count();
-        $totalTrainings = $user->trainings->whereNull('expire_at')->count();
+        $totalTrainings = $user->trainings->where('active','=',1)->count();
         $averagePoints = 0;
 
         if($totalQuizzes > 0){
