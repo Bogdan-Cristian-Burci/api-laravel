@@ -35,6 +35,7 @@ class UserSummaryTransformer extends TransformerAbstract
     public function transform(User $user): array
     {
         $totalQuizzes = $user->quizzes->count();
+        $totalTrainings = $user->trainings->whereNull('expire_at')->count();
         $averagePoints = 0;
 
         if($totalQuizzes > 0){
@@ -58,7 +59,8 @@ class UserSummaryTransformer extends TransformerAbstract
             "street"=>$user->street,
             "street2"=>$user->street_additional,
             "county"=>json_decode($user->county),
-            "city"=>json_decode($user->city)
+            "city"=>json_decode($user->city),
+            "totalTrainings"=>$totalTrainings
         ];
     }
 }
