@@ -37,13 +37,19 @@ class UserSummaryTransformer extends TransformerAbstract
         $totalQuizzes = $user->quizzes->where('name','!=','Demo')->count();
         $totalTrainings = $user->assignTrainings->where('active','=',1)->count();
         $averagePoints = 0;
-
+        $passedQuizzes = 0;
         if($totalQuizzes > 0){
             $averagePoints = $user->quizzes->reduce(function (int $cary, Quiz $quiz){
                     return $cary + $quiz->responses->filter(function(Response $response){
                             return (bool) $response->is_correct === true;
                         })->count();
                 },0) / $totalQuizzes;
+
+            $passedQuizzes = $user->quizzes->filter(function(Quiz $quiz){
+                return $quiz->responses->filter(function(Response $response){
+                    return (bool) $response->is_correct === true;
+                })->count() >= 28;
+            })->count();
         }
 
 
@@ -55,6 +61,7 @@ class UserSummaryTransformer extends TransformerAbstract
             "phone"=>$user->phone,
             "icon"=>$user->icon_number,
             "totalQuizzes"=>$user->quizzes->count(),
+            "passedQuizzes"=>$passedQuizzes,
             "averagePoints"=>$averagePoints,
             "street"=>$user->street,
             "street2"=>$user->street_additional,
