@@ -52,7 +52,8 @@ class UserTrainingsTransformer extends TransformerAbstract
                 "id"=>$category['id'],
                 "name"=>$category['name'],
                 "multiplier"=>$category['multiplier'],
-                "children"=>$children
+                "children"=>$children,
+                "activeChildren"=>$children->filter(function($child){return $child["active"] === 1;})->count(),
             ];
         });
 

@@ -34,7 +34,7 @@ class UserSummaryTransformer extends TransformerAbstract
      */
     public function transform(User $user): array
     {
-        $totalQuizzes = $user->quizzes->count();
+        $totalQuizzes = $user->quizzes->where('name','!=','Demo')->count();
         $totalTrainings = $user->assignTrainings->where('active','=',1)->count();
         $averagePoints = 0;
 
