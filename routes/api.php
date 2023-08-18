@@ -67,7 +67,7 @@ Route::middleware(['auth:sanctum','verified'])->group(function () {
 
     Route::get('cities/counties',[CityController::class,'getCounties']);
     Route::get('cities/city/{city}',[CityController::class,'getCities']);
-    Route::post('delete-account',[AuthController::class,'deleteAccount']);
+    Route::delete('delete-account',[AuthController::class,'deleteAccount']);
 });
 Route::post('logout',[AuthController::class,'logout'])->middleware('auth:sanctum');
 Route::post('register',[AuthController::class,'register']);
