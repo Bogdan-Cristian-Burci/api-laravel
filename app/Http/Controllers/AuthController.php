@@ -206,4 +206,11 @@ class AuthController extends ApiController
     public function alreadyChecked(){
         return view('email.verify.already-success');
     }
+
+    public function deleteAccount(){
+        //TBD
+//        $user = \request()->user();
+//        $user->delete();
+        return $this->successResponse(null,'User deleted with success');
+    }
 }
