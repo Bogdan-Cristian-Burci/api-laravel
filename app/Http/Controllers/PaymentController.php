@@ -136,6 +136,7 @@ class PaymentController extends ApiController
                     $paymentRequestIpn = PaymentAbstract::factoryFromEncrypted($request->input('env_key'),$request->input('data'),$this->x509FilePath);
                     $rrn = $paymentRequestIpn->objPmNotify->rrn;
 
+
                     $order=Order::where('payment_id',$paymentRequestIpn->orderId)->first();
 
                     if ($paymentRequestIpn->objPmNotify->errorCode == 0) {
@@ -143,20 +144,22 @@ class PaymentController extends ApiController
                         switch($paymentRequestIpn->objPmNotify->action){
                             case 'confirmed':
                                 //update DB, SET status = "confirmed/captured"
-                                $order->status=Order::STATUS['CONFIRMED'];
-                                $orderTrainings = $order->userTrainings->pluck('id');
-                                $userBoughtTrainings = $order->user->assignTrainings->whereIn('id',$orderTrainings);
-                                $userBoughtTrainings->each(function($order){
-                                   $order->update([
-                                       'active'=>true,
-                                       'expire_at'=>Carbon::now()->addDays(30)
-                                   ]);
-                                });
-                                $user = User::find($order->user->id);
+                                if($order->status !== Order::STATUS['CONFIRMED']){
+                                    $order->status=Order::STATUS['CONFIRMED'];
+                                    $orderTrainings = $order->userTrainings->pluck('id');
+                                    $userBoughtTrainings = $order->user->assignTrainings->whereIn('id',$orderTrainings);
+                                    $userBoughtTrainings->each(function($order){
+                                        $order->update([
+                                            'active'=>true,
+                                            'expire_at'=>Carbon::now()->addDays(30)
+                                        ]);
+                                    });
+                                    $user = User::find($order->user->id);
 
-                                $user->notify( new AfterPurchaseNotification());
+                                    $user->notify( new AfterPurchaseNotification());
 
-                                $this->sendDataToSmartBill($order);
+                                    $this->sendDataToSmartBill($order);
+                                }
 
                                 $this->errorMessage = $paymentRequestIpn->objPmNotify->errorMessage;
                                 break;
