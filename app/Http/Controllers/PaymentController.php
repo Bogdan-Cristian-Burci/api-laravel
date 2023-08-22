@@ -143,6 +143,8 @@ class PaymentController extends ApiController
 
                         switch($paymentRequestIpn->objPmNotify->action){
                             case 'confirmed':
+                                Log::info('Payment confirmed for order '.$order->id);
+                                Log::info('rrn '.json_encode($rrn));
                                 //update DB, SET status = "confirmed/captured"
                                 if($order->status !== Order::STATUS['CONFIRMED']){
                                     $order->status=Order::STATUS['CONFIRMED'];
