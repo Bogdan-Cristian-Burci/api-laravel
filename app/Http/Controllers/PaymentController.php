@@ -243,6 +243,7 @@ class PaymentController extends ApiController
      */
     public function sendDataToSmartBill($order){
 
+        Log::info('Sending data to smart bill'.$order->id);
         $client = new Client(['base_uri'=>'https://ws.smartbill.ro']);
 
         $authToken=base64_encode(config('smartbill.user').':'.config('smartbill.token'));
