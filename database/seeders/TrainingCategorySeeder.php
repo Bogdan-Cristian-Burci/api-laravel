@@ -17,15 +17,18 @@ class TrainingCategorySeeder extends Seeder
         $availableTrainingTypes = [
             [
                 'name'=>'Intermediari in asigurari',
-                'code'=>'X'
+                'code'=>'X',
+                'multiplier'=>29
             ],
             [
                 'name'=>'Conducatori/Conducatori executivi',
-                'code'=>'CO CE'
+                'code'=>'CO CE',
+                'multiplier'=>33
             ],
             [
                 'name'=>'Conducatori executivi',
-                'code'=>'CE'
+                'code'=>'CE',
+                'multiplier'=>37
             ],
         ];
 
@@ -33,7 +36,8 @@ class TrainingCategorySeeder extends Seeder
 
             TrainingCategory::create([
                 'name'=>$trainingType['name'],
-                'code'=>$trainingType['code']
+                'code'=>$trainingType['code'],
+                'multiplier'=>$trainingType['multiplier']
             ]);
         }
     }

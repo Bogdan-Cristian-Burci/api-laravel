@@ -11,6 +11,7 @@ class Training extends Model
     protected $fillable = [
         'training_category_id',
         'training_type_id',
+        'total_price'
     ];
 
     public function category(): BelongsTo

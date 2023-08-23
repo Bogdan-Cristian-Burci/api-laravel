@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('training_category_id');
             $table->unsignedBigInteger('training_type_id');
+            $table->float('total_price')->default(20);
             $table->foreign('training_category_id')->references('id')->on('training_categories');
             $table->foreign('training_type_id')->references('id')->on('training_types');
             $table->timestamps();

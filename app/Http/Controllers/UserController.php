@@ -53,7 +53,6 @@ class UserController extends ApiController
     public function getTrainings(){
 
         $user = \request()->user();
-
         $data = fractal($user, new UserTrainingsTransformer());
 
         return $this->successResponse($data,'Trainings found with success');

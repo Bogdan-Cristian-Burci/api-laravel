@@ -11,6 +11,7 @@ class TrainingType extends Model
     protected $fillable = [
         'name',
         'code',
+        'price'
     ];
 
     public function training(): BelongsToMany

@@ -11,6 +11,7 @@ class TrainingCategory extends Model
     protected $fillable = [
         'name',
         'code',
+        'multiplier'
     ];
 
     public function training(): BelongsToMany

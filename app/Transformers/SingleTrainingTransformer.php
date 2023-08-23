@@ -36,7 +36,8 @@ class SingleTrainingTransformer extends TransformerAbstract
     {
         return [
             'category'=>fractal(TrainingCategory::find($training->training_category_id), new TrainingCategoryTransformer())->toArray(),
-            'type'=>fractal(TrainingType::find($training->training_type_id), new TrainingTypeTransformer())->toArray()
+            'type'=>fractal(TrainingType::find($training->training_type_id), new TrainingTypeTransformer())->toArray(),
+            'total_price'=>$training->total_price
         ];
     }
 }

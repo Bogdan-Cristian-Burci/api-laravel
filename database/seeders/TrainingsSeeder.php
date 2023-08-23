@@ -25,7 +25,8 @@ class TrainingsSeeder extends Seeder
             foreach($trainingTypes as $type){
                 Training::create([
                     'training_category_id' => $category->id,
-                    'training_type_id' => $type->id
+                    'training_type_id' => $type->id,
+                    'total_price' => $type->price * $category->multiplier
                 ]);
             }
         }

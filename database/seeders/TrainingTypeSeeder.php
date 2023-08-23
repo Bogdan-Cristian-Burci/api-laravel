@@ -18,15 +18,18 @@ class TrainingTypeSeeder extends Seeder
         $availableTrainingTypes = [
             [
                 'name'=>'Pregatire profesionala initiala',
-                'code'=>'PPI'
+                'code'=>'PPI',
+                'price'=>1
             ],
             [
                 'name'=>'Pregatire profesionala continua',
-                'code'=>'PPC'
+                'code'=>'PPC',
+                'price'=>1
             ],
             [
                 'name'=>'Definitivat',
-                'code'=>'DEF'
+                'code'=>'DEF',
+                'price'=>1
             ],
         ];
 
@@ -34,7 +37,8 @@ class TrainingTypeSeeder extends Seeder
 
             TrainingType::create([
                 'name'=>$trainingType['name'],
-                'code'=>$trainingType['code']
+                'code'=>$trainingType['code'],
+                'price'=>$trainingType['price']
             ]);
         }
     }

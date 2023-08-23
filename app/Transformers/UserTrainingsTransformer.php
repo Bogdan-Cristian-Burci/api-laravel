@@ -44,7 +44,8 @@ class UserTrainingsTransformer extends TransformerAbstract
                     ...$item['type'],
                     "active"=>$item['active'],
                     "demo"=>$item['demo'],
-                    "expire"=> $item['expire_at'] ? Carbon::parse( $item['expire_at'])->toDateString(): null
+                    "expire"=> $item['expire_at'] ? Carbon::parse( $item['expire_at'])->toDateString(): null,
+                    "total_price"=>$item['total_price'],
                 ];
             })->values();
 
