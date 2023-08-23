@@ -19,12 +19,12 @@ class UserSeeder extends Seeder
         $user = User::create([
            'first_name'=>'Super',
            'last_name'=>'Admin',
-           'email'=>'bogdan.cristian.burci@gmail.com',
+           'email'=>'bogdanburci81@gmail.com',
            'phone'=>'0726735659',
            'password'=>Hash::make('Admin!')
         ]);
 
-        $user->assignRole(['super-admin']);
+        //$user->assignRole(['super-admin']);
 
     }
 }
