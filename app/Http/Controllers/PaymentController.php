@@ -303,7 +303,7 @@ class PaymentController extends ApiController
                     'name'=>$userTraining->training->category->name . ' - '.$userTraining->training->type->name,
                     'currency'=>config('smartbill.currency'),
                     'quantity'=>1,
-                    'price'=>$userTraining->training->type->price * $userTraining->training->category->multiplier,
+                    'price'=>$userTraining->training->total_price,
                     'isTaxIncluded'=>config('smartbill.tax_included'),
                     'taxPercentage'=>config('smartbill.tax_percentage'),
                     'measuringUnitName'=>'buc',
