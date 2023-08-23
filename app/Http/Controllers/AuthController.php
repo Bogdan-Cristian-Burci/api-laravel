@@ -40,7 +40,7 @@ class AuthController extends ApiController
         ]);
 
         //check if user first name is a boy or a girl name
-        if (preg_match('/[ae]$/', $user->first_name) ||  in_array($user->first_name,self::GIRLS_NAMES)) {
+        if (preg_match('/a$/', $user->first_name) ||  in_array($user->first_name,self::GIRLS_NAMES)) {
             $user->update([
                 'icon_number' => 1
             ]);
@@ -85,7 +85,11 @@ class AuthController extends ApiController
             }
         }catch(Exception $e){
             Log::error('Error on login: ' . $e->getMessage().'with code'.$e->getCode());
-            return $this->errorResponse($e->getCode(), $e->getMessage());
+            if($e instanceof AuthenticationException){
+                return $this->errorResponse(401,'Incorrect password');
+            }else{
+                return $this->errorResponse($e->getCode(), $e->getMessage());
+            }
         }
         return $this->errorResponse(500,'Something went wrong, try again later');
     }
