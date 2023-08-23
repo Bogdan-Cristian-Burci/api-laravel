@@ -148,6 +148,7 @@ class PaymentController extends ApiController
                                 //update DB, SET status = "confirmed/captured"
                                 if($order->status !== Order::STATUS['CONFIRMED']){
                                     $order->status=Order::STATUS['CONFIRMED'];
+                                    $order->save();
                                     $orderTrainings = $order->userTrainings->pluck('id');
                                     $userBoughtTrainings = $order->user->assignTrainings->whereIn('id',$orderTrainings);
                                     $userBoughtTrainings->each(function($order){

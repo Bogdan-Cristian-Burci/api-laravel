@@ -84,7 +84,7 @@ class AuthController extends ApiController
                 throw new AuthenticationException('Parola incorecta');
             }
         }catch(Exception $e){
-            Log::error('Error on login: ' . $e->getMessage());
+            Log::error('Error on login: ' . $e->getMessage().'with code'.$e->getCode());
             return $this->errorResponse($e->getCode(), $e->getMessage());
         }
         return $this->errorResponse(500,'Something went wrong, try again later');
