@@ -90,7 +90,7 @@ class AuthController extends ApiController
                 return \response()->json([
                     'message'=>'Parola incorecta',
                     'errors'=>[
-                        'password'=>'Parola incorecta'
+                        'password'=>['Parola incorecta']
                     ]
                 ], 401);
             }else{
