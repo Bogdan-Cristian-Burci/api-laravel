@@ -16,6 +16,7 @@ use App\Notifications\PasswordResetNotification;
 use App\Transformers\User\CreateUserTransformer;
 use App\Transformers\User\LoginTransformer;
 use Exception;
+use http\Env\Response;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -86,7 +87,12 @@ class AuthController extends ApiController
         }catch(Exception $e){
             Log::error('Error on login: ' . $e->getMessage().'with code'.$e->getCode());
             if($e instanceof AuthenticationException){
-                return $this->errorResponse(401,'Incorrect password');
+                return \response()->json([
+                    'message'=>'Parola incorecta',
+                    'errors'=>[
+                        'password'=>'Parola incorecta'
+                    ]
+                ], 401);
             }else{
                 return $this->errorResponse($e->getCode(), $e->getMessage());
             }
