@@ -69,7 +69,9 @@ class AuthController extends ApiController
     public function login(LoginUserRequest $request){
 
         try{
-            $user = User::where('email',$request->input('email'))->firstOrFail();
+            $user = User::where('email',$request->input('email'))->first();
+
+            if(!$user) throw new NotFoundResourceException('User not found');
 
             if(Hash::check($request->input('password'), $user->password)){
 
@@ -92,7 +94,15 @@ class AuthController extends ApiController
                         'password'=>['Parola incorecta']
                     ]
                 ], 401);
-            }else{
+            }elseif($e instanceof NotFoundResourceException){
+                return \response()->json([
+                    'message'=>'Userul nu este inregistrat',
+                    'errors'=>[
+                        'email'=>['Userul nu este inregistrat']
+                    ]
+                ], 404);
+            }
+            else{
                 return $this->errorResponse($e->getCode(), $e->getMessage());
             }
         }
