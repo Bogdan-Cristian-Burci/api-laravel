@@ -60,7 +60,7 @@ class UserSummaryTransformer extends TransformerAbstract
             "email"=>$user->email,
             "phone"=>$user->phone,
             "icon"=>$user->icon_number,
-            "totalQuizzes"=>$user->quizzes->count(),
+            "totalQuizzes"=>$totalQuizzes,
             "passedQuizzes"=>$passedQuizzes,
             "averagePoints"=>$averagePoints,
             "street"=>$user->street,
