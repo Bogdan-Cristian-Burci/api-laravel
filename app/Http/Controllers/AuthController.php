@@ -16,7 +16,6 @@ use App\Notifications\PasswordResetNotification;
 use App\Transformers\User\CreateUserTransformer;
 use App\Transformers\User\LoginTransformer;
 use Exception;
-use http\Env\Response;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -70,7 +69,7 @@ class AuthController extends ApiController
     public function login(LoginUserRequest $request){
 
         try{
-            $user = User::where('email',$request->input('email'))->first();
+            $user = User::where('email',$request->input('email'))->firstOrFail();
 
             if(Hash::check($request->input('password'), $user->password)){
 
@@ -217,10 +216,10 @@ class AuthController extends ApiController
         return view('email.verify.already-success');
     }
 
-    public function deleteAccount(){
-        //TBD
-//        $user = \request()->user();
-//        $user->delete();
-        return $this->successResponse(null,'User deleted with success');
+    public function deleteAccount(Request $request){
+        $request->user()->tokens()->delete();
+        $user = $request->user();
+        $user->delete();
+        return $this->successResponse(null,'User deleted with success',204);
     }
 }
