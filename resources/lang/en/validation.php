@@ -147,11 +147,12 @@ return [
         ],
         'email' => [
             'unique' => 'Adresa de email este deja inregistrata.',
+            'enum' => 'Adresa de email nu este valida.',
+            'exists' => 'Adresa de email este deja inregistrata.',
+            'in' => 'Adresa de email nu este valida.',
+            'not_in' => 'Adresa de email nu este valida.',
         ],
-        'enum' => ':attribute nu este valid.',
-        'exists' => ':attribute nu este valid.',
-        'in' => ':attribute nu este valid.',
-        'not_in' => ':attribute nu este valid.',
+
     ],
 
     /*
