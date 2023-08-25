@@ -24,6 +24,7 @@ use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Log;
+use Illuminate\Support\Str;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class AuthController extends ApiController
@@ -132,7 +133,6 @@ class AuthController extends ApiController
 
 
     /**
-     * @throws TokenMismatchException
      */
     public function validateToken(ValidateTokenRequest $request){
 
