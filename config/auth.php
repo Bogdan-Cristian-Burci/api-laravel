@@ -107,6 +107,6 @@ return [
     */
 
     'password_timeout' => 10800,
-    'reset_token_availability' => 30, //in minutes
+    'reset_token_availability' => env('RESET_TOKEN_AVAILABILITY', 30), //in minutes
 
 ];
