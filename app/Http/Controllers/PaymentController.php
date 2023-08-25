@@ -136,7 +136,7 @@ class PaymentController extends ApiController
                     $paymentRequestIpn = PaymentAbstract::factoryFromEncrypted($request->input('env_key'),$request->input('data'),$this->x509FilePath);
                     $rrn = $paymentRequestIpn->objPmNotify->rrn;
 
-
+                    Log::info('Payment request ipn '.json_encode($paymentRequestIpn));
                     $order=Order::where('payment_id',$paymentRequestIpn->orderId)->first();
 
                     if ($paymentRequestIpn->objPmNotify->errorCode == 0) {
