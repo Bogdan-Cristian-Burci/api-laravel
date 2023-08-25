@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Session\TokenMismatchException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -88,6 +89,10 @@ class Handler extends ExceptionHandler
 
         if($exception instanceof AuthenticationException){
             return $this->errorResponse(401,'Incorrect password');
+        }
+
+        if($exception instanceof TokenMismatchException){
+            return $this->errorResponse(401,'Token expirat');
         }
 
         if (config('app.debug')) {

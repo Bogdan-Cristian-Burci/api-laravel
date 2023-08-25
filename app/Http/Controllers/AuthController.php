@@ -15,6 +15,7 @@ use App\Notifications\AfterEmailValidationNotification;
 use App\Notifications\PasswordResetNotification;
 use App\Transformers\User\CreateUserTransformer;
 use App\Transformers\User\LoginTransformer;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Events\Registered;
@@ -173,6 +174,10 @@ class AuthController extends ApiController
 
         if(!$resetRequest->validated) throw new TokenMismatchException('Unauthorized request' ,401);
 
+        if(Carbon::parse($resetRequest->created_at)->addMinutes(config('auth.reset_token_availability'))->isPast()) {
+            $resetRequest->delete();
+            throw new TokenMismatchException('Token expired', 401);
+        }
         //Update user's password
         $user->fill([
             'password' => Hash::make($request->input('password'))
@@ -229,6 +234,9 @@ class AuthController extends ApiController
     public function deleteAccount(Request $request){
         $request->user()->tokens()->delete();
         $user = $request->user();
+        $randomString = Str::random(10);
+        $user->email = $randomString.'@'.$randomString.'.com';
+        $user->save();
         $user->delete();
         return $this->successResponse(null,'User deleted with success',204);
     }

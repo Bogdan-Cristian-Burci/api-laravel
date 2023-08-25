@@ -107,5 +107,6 @@ return [
     */
 
     'password_timeout' => 10800,
+    'reset_token_availability' => 30, //in minutes
 
 ];
