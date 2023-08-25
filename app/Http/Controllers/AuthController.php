@@ -154,7 +154,9 @@ class AuthController extends ApiController
 
         $user = User::where('email', $request->input('email'))->first();
 
-        if(!$user) throw new NotFoundResourceException('user with this email was not found');
+        if(!$user)  throw  ValidationException::withMessages([
+            'email' => ['Adresa de email nu exista in baza noastra de date'],
+        ]);
 
         $resetRequest = PasswordReset::where('email', $user->email)->first();
 
