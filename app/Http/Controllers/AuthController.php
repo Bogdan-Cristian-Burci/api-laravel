@@ -131,12 +131,21 @@ class AuthController extends ApiController
     }
 
 
+    /**
+     * @throws TokenMismatchException
+     */
     public function validateToken(ValidateTokenRequest $request){
 
         $user = User::where('email',$request->input('email'))->first();
 
         $userPassResetRecord = PasswordReset::where('email', $user->email)->first();
 
+        if(Carbon::parse($userPassResetRecord->created_at)->addMinutes(config('auth.reset_token_availability'))->isPast()) {
+            $userPassResetRecord->delete();
+            throw  ValidationException::withMessages([
+                'token' => ['Tokenul a expirat'],
+            ]);
+        }
         if($userPassResetRecord->token == $request->input('token')){
             $userPassResetRecord->validated = true;
             $userPassResetRecord->save();
@@ -144,7 +153,9 @@ class AuthController extends ApiController
             return $this->successResponse(null,'Token validated with success');
         }
 
-        return $this->errorResponse(400,'Token does dot match');
+        throw  ValidationException::withMessages([
+            'token' => ['Tokenul nu e corect'],
+        ]);
     }
 
     /**
@@ -162,10 +173,6 @@ class AuthController extends ApiController
 
         if(!$resetRequest->validated) throw new TokenMismatchException('Unauthorized request' ,401);
 
-        if(Carbon::parse($resetRequest->created_at)->addMinutes(config('auth.reset_token_availability'))->isPast()) {
-            $resetRequest->delete();
-            throw new TokenMismatchException('Token expired', 401);
-        }
         //Update user's password
         $user->fill([
             'password' => Hash::make($request->input('password'))
