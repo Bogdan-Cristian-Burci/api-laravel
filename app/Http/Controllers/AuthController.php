@@ -140,6 +140,10 @@ class AuthController extends ApiController
 
         $userPassResetRecord = PasswordReset::where('email', $user->email)->first();
 
+        if(!$userPassResetRecord) throw  ValidationException::withMessages([
+            'token' => ['Niciun token gasit']
+        ]);
+
         if(Carbon::parse($userPassResetRecord->created_at)->addMinutes(config('auth.reset_token_availability'))->isPast()) {
             $userPassResetRecord->delete();
             throw  ValidationException::withMessages([
