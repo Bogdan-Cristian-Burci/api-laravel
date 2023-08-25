@@ -67,9 +67,12 @@ class AuthController extends ApiController
         return $this->successResponse($data,'User created successfully',201);
     }
 
+    /**
+     * @throws AuthenticationException
+     */
     public function login(LoginUserRequest $request){
 
-        try{
+
             $user = User::where('email',$request->input('email'))->first();
 
             if(!$user) throw new NotFoundResourceException('User not found');
@@ -84,29 +87,9 @@ class AuthController extends ApiController
 
                 return $this->successResponse($data);
             }else{
-                throw new AuthenticationException('Parola incorecta');
+                throw new AuthenticationException();
             }
-        }catch(Exception $e){
-            Log::error('Error on login: ' . $e->getMessage().'with code'.$e->getCode());
-            if($e instanceof AuthenticationException){
-                return \response()->json([
-                    'message'=>'Parola incorecta',
-                    'errors'=>[
-                        'password'=>['Parola incorecta']
-                    ]
-                ], 401);
-            }elseif($e instanceof NotFoundResourceException){
-                return \response()->json([
-                    'message'=>'Userul nu este inregistrat',
-                    'errors'=>[
-                        'email'=>['Userul nu este inregistrat']
-                    ]
-                ], 404);
-            }
-            else{
-                return $this->errorResponse($e->getCode(), $e->getMessage());
-            }
-        }
+
         return $this->errorResponse(500,'Something went wrong, try again later');
     }
 

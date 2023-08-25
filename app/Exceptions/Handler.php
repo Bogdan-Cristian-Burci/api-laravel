@@ -88,7 +88,7 @@ class Handler extends ExceptionHandler
         }
 
         if($exception instanceof AuthenticationException){
-            return $this->errorResponse(401,'Incorrect password');
+            return $this->errorResponse(422,'Parola este incorecta');
         }
 
         if($exception instanceof TokenMismatchException){
