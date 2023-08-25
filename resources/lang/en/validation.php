@@ -148,7 +148,7 @@ return [
         'email' => [
             'unique' => 'Adresa de email este deja inregistrata.',
             'enum' => 'Adresa de email nu este valida.',
-            'exists' => 'Adresa de email este deja inregistrata.',
+            'exists' => 'Adresa de email nu este valida.',
             'in' => 'Adresa de email nu este valida.',
             'not_in' => 'Adresa de email nu este valida.',
         ],
