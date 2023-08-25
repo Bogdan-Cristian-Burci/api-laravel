@@ -22,6 +22,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Log;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
@@ -87,7 +88,9 @@ class AuthController extends ApiController
 
                 return $this->successResponse($data);
             }else{
-                throw new AuthenticationException();
+                throw  ValidationException::withMessages([
+                    'password' => ['Parola este incorecta'],
+                ]);
             }
 
         return $this->errorResponse(500,'Something went wrong, try again later');
