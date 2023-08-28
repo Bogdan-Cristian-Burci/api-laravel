@@ -192,4 +192,10 @@ return [
         'username'                 => 'username',
         'year'                     => 'year',
     ],
+
+    'custom' => [
+        'email' => [
+            'exists' => 'Adresa de email nu este inregistrata! Creeaza cont nou!',
+        ],
+    ],
 ];
