@@ -34,6 +34,6 @@ class ContacUsMail extends Mailable
      */
     public function build(): ContacUsMail
     {
-        return $this->view('mail.contact.contact-us')->subject($this->mailData['subject'])->with(['data'=>$this->mailData]);
+        return $this->view('email.contact.contact-us')->subject($this->mailData['subject'])->with(['data'=>$this->mailData]);
     }
 }
