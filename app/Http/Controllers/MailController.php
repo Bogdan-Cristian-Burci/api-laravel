@@ -14,7 +14,7 @@ class MailController extends Controller
             'name'=>$request->input('name'),
             'email'=>$request->input('email'),
             'message'=>$request->input('message'),
-            'subject'=>'Solicitare contact aplicatie mobila'
+            'subject'=>'Solicitare contact aplicatie mobila - Intrebări asigurări'
         ];
 
         Mail::to(config('email.contact_us.to'))->send(new ContacUsMail($data));

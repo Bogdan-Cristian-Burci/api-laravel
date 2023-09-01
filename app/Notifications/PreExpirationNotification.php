@@ -20,7 +20,7 @@ class PreExpirationNotification extends Notification
 
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage)->subject('Au mai ramas 5 zile')->view('email-template.pre-expiration',['name'=>$notifiable->first_name, 'trainings'=>$this->trainings]);
+        return (new MailMessage)->subject('Au mai ramas 5 zile - Intrebări asigurări')->view('email-template.pre-expiration',['name'=>$notifiable->first_name, 'trainings'=>$this->trainings]);
     }
 
     public function toArray($notifiable): array

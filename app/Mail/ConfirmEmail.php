@@ -30,6 +30,6 @@ class ConfirmEmail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.confirmation')->subject('Confirma e-mailul')->with('user',$this->user);
+        return $this->markdown('emails.confirmation')->subject('Confirma e-mailul - Intrebări asigurări')->with('user',$this->user);
     }
 }

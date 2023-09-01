@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
-            return (new MailMessage)->subject('Confirma e-mailul')
+            return (new MailMessage)->subject('Confirma e-mailul - Intrebări asigurări')
                 ->view('email-template.confirmation',['name'=>$notifiable->first_name,'url'=>$url]);
 
         });

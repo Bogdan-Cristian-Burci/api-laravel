@@ -18,7 +18,7 @@ class AfterPurchaseNotification extends Notification
 
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage)->subject('Start sesiune testare')
+        return (new MailMessage)->subject('Start sesiune testare  - Intrebări asigurări')
             ->view('email-template.tests-access',['name'=>$notifiable->first_name]);
     }
 

@@ -20,7 +20,7 @@ class ExpirationNotification extends Notification
 
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage)->subject('Sesiunea de testare a expirat!')
+        return (new MailMessage)->subject('Sesiunea de testare a expirat! - Intrebări asigurări')
             ->view('email-template.expiration',['name'=>$notifiable->first_name, 'trainings'=>$this->trainings]);
     }
 

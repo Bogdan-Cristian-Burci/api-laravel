@@ -41,7 +41,7 @@ class PasswordResetNotification extends Notification
      */
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage)->subject('Resetare parola')
+        return (new MailMessage)->subject('Resetare parola - Intrebări asigurări')
             ->view('email-template.reset-password',['token'=>$this->token, 'userName'=>$notifiable->first_name]);
     }
 
