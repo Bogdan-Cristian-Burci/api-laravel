@@ -78,6 +78,9 @@ class AuthController extends ApiController
             $user = User::where('email',$request->input('email'))->first();
 
             if(!$user) throw new NotFoundResourceException('User not found');
+            if(!$user->hasVerifiedEmail()) throw ValidationException::withMessages([
+                'email' => ['Adresa de mail nu a fost validata'],
+            ]);;
 
             if(Hash::check($request->input('password'), $user->password)){
 
